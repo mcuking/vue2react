@@ -1,16 +1,27 @@
 import * as t from '@babel/types';
 
-export default class scriptVisitor {
-  script: any;
+import { Script } from './types';
 
-  constructor(ast: t.Node | t.Node[]) {
+export default class vueVisitor {
+  script: Script;
+
+  constructor() {
     this.script = {
-      ast,
+      imports: [],
       name: '',
       data: {},
       props: {},
       methods: {}
     };
+  }
+
+  importHandler(node: t.ImportDeclaration) {
+    console.log(node, 'node');
+    this.script.imports.push(node);
+  }
+
+  nameHandler(name: string) {
+    this.script.name = name;
   }
 
   dataHandler(body: t.Node[], isObject: boolean) {
@@ -35,7 +46,17 @@ export default class scriptVisitor {
     });
   }
 
-  nameHandler(name: string) {
-    this.script.name = name;
+  methodsHandler(name: string, params: any[], body: t.BlockStatement) {
+    // 将 vue 的 methods 和 生命周期 的方法转换成 react 的 class method
+    if (name === 'componentDidCatch') {
+      params = [t.identifier('error'), t.identifier('info')];
+    }
+    const classMethod = t.classMethod(
+      'method',
+      t.identifier(name),
+      params,
+      body
+    );
+    this.script.methods[name] = classMethod;
   }
 }
