@@ -1,2 +1,3 @@
-# vue-to-react
-transform vue component to react component
+# Vue-to-React
+
+Transform Vue component to React component
