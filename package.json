@@ -1,0 +1,39 @@
+{
+  "name": "Vue-to-React",
+  "version": "0.0.1",
+  "description": "Transform Vue component to React component",
+  "main": "index.js",
+  "scripts": {
+    "build": "rm -rf ./lib && tsc --target es2015 --declaration",
+    "build-bundle": "rm -rf ./dist && webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mcuking/vue-to-react.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mcuking/vue-to-react/issues"
+  },
+  "homepage": "https://github.com/mcuking/vue-to-react#readme",
+  "dependencies": {
+    "@babel/generator": "^7.4.0",
+    "@babel/parser": "^7.4.3",
+    "@babel/template": "^7.4.4",
+    "@babel/traverse": "^7.4.3",
+    "@babel/types": "^7.4.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "devDependencies": {
+    "@types/babel-generator": "^6.25.3",
+    "@types/babel-template": "^6.25.2",
+    "@types/babel-traverse": "^6.25.5",
+    "@types/node": "^11.13.7",
+    "ts-loader": "^5.4.3",
+    "typescript": "^3.4.5",
+    "webpack": "^4.30.0",
+    "webpack-cli": "^3.3.1"
+  }
+}
