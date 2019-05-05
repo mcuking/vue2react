@@ -1,32 +1,54 @@
 <template>
   <div>
     <p class="title"
-       @click="handleClick">{{title}}</p>
+       @click="handleTitleClick">{{title}}</p>
     <p class="name"
        v-if="show">{{name}}</p>
+    <loader />
   </div>
 </template>
 
 <script>
+import Loader from "./Loader";
+
 export default {
   name: "cool",
+
+  component: {
+    Loader
+  },
+
   props: {
     title: {
       type: String,
       default: "title"
     }
   },
+
   data() {
     return {
       show: true,
-      name: "name"
+      name: "tom"
     };
   },
+
   mounted() {
     console.log(this.name);
+    document.addEventListener("click", this.handlePageClick);
   },
+
+  beforeDestroy() {
+    document.removeEventListener("click", this.handlePageClick);
+  },
+
   methods: {
-    handleClick() {}
+    handlePageClick(e) {
+      console.log("page click", e);
+    },
+
+    handleTitleClick(e) {
+      console.log("title clicked", e);
+    }
   }
 };
 </script>

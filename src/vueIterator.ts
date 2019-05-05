@@ -1,26 +1,37 @@
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import scriptVisitor from './scriptVisitor';
+import vueVisitor from './vueVisitor';
+import { cycle } from './utils';
 
-export default function scriptIterator(ast: t.Node | t.Node[]) {
-  const visitor = new scriptVisitor(ast);
+export default function vueIterator(vast: t.Node | t.Node[]) {
+  const visitor = new vueVisitor();
 
-  traverse(ast, {
+  traverse(vast, {
+    ImportDeclaration(path: NodePath<t.ImportDeclaration>) {
+      visitor.importHandler(path.node);
+    },
+
     ObjectMethod(path: NodePath<t.ObjectMethod>) {
       const parent = path.parentPath.parent;
       const name = (path.node.key as t.Identifier).name;
       if (parent && t.isExportDefaultDeclaration(parent)) {
         switch (name) {
           case 'data':
-            const body = path.node.body.body;
-            visitor.dataHandler(body, false);
+            visitor.dataHandler(path.node.body.body, false);
             break;
+          case 'created':
+          case 'mounted':
+          case 'updated':
+          case 'beforeDestroy':
+          case 'errorCaptured':
+            visitor.methodsHandler(cycle[name], [], path.node.body);
           default:
             break;
         }
       }
     },
+
     ObjectProperty(path: NodePath<t.ObjectProperty>) {
       const parent = path.parentPath.parent;
       const name = (path.node.key as t.Identifier).name;
@@ -46,6 +57,16 @@ export default function scriptIterator(ast: t.Node | t.Node[]) {
               }
             }
             break;
+          case 'methods':
+            const nodeList = (path.node.value as t.ObjectExpression)
+              .properties as t.ObjectMethod[];
+            nodeList.forEach(node => {
+              visitor.methodsHandler(
+                (node.key as t.Identifier).name,
+                node.params,
+                node.body
+              );
+            });
           default:
             break;
         }
