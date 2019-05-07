@@ -67,6 +67,17 @@ export default function vueIterator(vast: t.Node | t.Node[]) {
                 node.body
               );
             });
+            break;
+          case 'computed':
+            const nodeList2 = (path.node.value as t.ObjectExpression)
+              .properties as t.ObjectMethod[];
+            nodeList2.forEach(node => {
+              visitor.computedHandler(
+                (node.key as t.Identifier).name,
+                node.body
+              );
+            });
+            break;
           default:
             break;
         }

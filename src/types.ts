@@ -5,6 +5,7 @@ export interface Script {
   data: { [name: string]: any };
   props: { [name: string]: any };
   methods: { [name: string]: any };
+  computed: { [name: string]: any };
   imports: t.ImportDeclaration[];
 }
 

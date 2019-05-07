@@ -13,6 +13,7 @@ export default function reactIterator(rast: t.Node, app: any) {
 
     ClassBody(path: NodePath<t.ClassBody>) {
       visitor.genClassMethods(path);
+      visitor.genRenderMethods(path);
     }
   });
 

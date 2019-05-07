@@ -4,6 +4,8 @@
        @click="handleTitleClick">{{title}}</p>
     <p class="name"
        v-if="show">{{name}}</p>
+    <p class="name"
+       v-if="show">{{reverseName}}</p>
     <loader />
   </div>
 </template>
@@ -48,6 +50,19 @@ export default {
 
     handleTitleClick(e) {
       console.log("title clicked", e);
+    }
+  },
+
+  computed: {
+    reverseName() {
+      return this.name
+        .split("")
+        .reverse()
+        .join("");
+    },
+
+    wrappedTitle() {
+      return `Title is ${this.title}`;
     }
   }
 };

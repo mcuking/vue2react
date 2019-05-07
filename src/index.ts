@@ -36,7 +36,6 @@ export default function transform(src: string, target: string) {
   const rast = componentTemplateBuilder(app);
 
   const targetAst = reactIterator(rast, app);
-  console.log((targetAst as t.File).program.body, 'targetAst');
   const targetCode = generate(targetAst).code;
 
   fs.writeFileSync(path.resolve(__dirname, target), targetCode);
