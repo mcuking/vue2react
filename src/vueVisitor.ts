@@ -11,12 +11,12 @@ export default class vueVisitor {
       name: '',
       data: {},
       props: {},
-      methods: {}
+      methods: {},
+      computed: {}
     };
   }
 
   importHandler(node: t.ImportDeclaration) {
-    console.log(node, 'node');
     this.script.imports.push(node);
   }
 
@@ -47,7 +47,7 @@ export default class vueVisitor {
   }
 
   methodsHandler(name: string, params: any[], body: t.BlockStatement) {
-    // 将 vue 的 methods 和 生命周期 的方法转换成 react 的 class method
+    // transform vue method and cylce to react method and cycle
     if (name === 'componentDidCatch') {
       params = [t.identifier('error'), t.identifier('info')];
     }
@@ -58,5 +58,9 @@ export default class vueVisitor {
       body
     );
     this.script.methods[name] = classMethod;
+  }
+
+  computedHandler(name: string, body: t.BlockStatement) {
+    this.script.computed[name] = body;
   }
 }

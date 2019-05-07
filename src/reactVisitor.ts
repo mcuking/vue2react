@@ -12,7 +12,6 @@ export default class reactVisitor {
 
   genImports(path: NodePath<t.Program>) {
     this.app.script.imports.forEach(node => {
-      // 去除顶部 template 的影响
       node.leadingComments = [];
       path.node.body.unshift(node);
     });
@@ -43,5 +42,35 @@ export default class reactVisitor {
         nodeLists.push(classMethod);
       }
     }
+  }
+
+  genRenderMethods(path: NodePath<t.ClassBody>) {
+    // process computed props
+    let blocks: t.Node[] = [];
+    for (const name in this.app.script.computed) {
+      if (this.app.script.computed.hasOwnProperty(name)) {
+        const nodeList = this.app.script.computed[name]['body'];
+        for (const node of nodeList) {
+          if (node.type !== 'ReturnStatement') {
+            blocks.push(node);
+          } else {
+            const node2 = t.variableDeclaration('const', [
+              t.variableDeclarator(t.identifier(name), node.argument)
+            ]);
+            blocks.push(node2);
+          }
+        }
+      }
+    }
+
+    // generate render function
+    const render = t.classMethod(
+      'method',
+      t.identifier('render'),
+      [],
+      t.blockStatement(blocks as t.Statement[])
+    );
+
+    path.node.body.push(render);
   }
 }

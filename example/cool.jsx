@@ -26,4 +26,9 @@ export default class cool extends Component {
     console.log("title clicked", e);
   }
 
+  render() {
+    const reverseName = this.name.split("").reverse().join("");
+    const wrappedTitle = `Title is ${this.title}`;
+  }
+
 }
