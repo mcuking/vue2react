@@ -92,3 +92,14 @@ export function genDefaultProps(props: { [name: string]: any }) {
     t.objectExpression(properties)
   );
 }
+
+export function genComponentName(name = 'react-component'): string {
+  if (!name) {
+    return 'ReactComponent';
+  } else {
+    return name
+      .split('-')
+      .map(item => item[0].toUpperCase() + item.substr(1))
+      .join('');
+  }
+}

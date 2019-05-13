@@ -1,7 +1,7 @@
 import react, { Component } from "react";
 import PropTypes from "PropType";
 import Loader from "./Loader";
-export default class cool extends Component {
+export default class CoolDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {

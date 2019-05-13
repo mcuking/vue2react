@@ -9,6 +9,8 @@ import * as t from '@babel/types';
 
 import vueIterator from './vueIterator';
 import reactIterator from './reactIterator';
+import { genComponentName } from './utils';
+import { App } from './types';
 
 export default function transform(src: string, target: string) {
   const sourceCode = fs.readFileSync(path.resolve(__dirname, src), 'utf8');
@@ -41,7 +43,7 @@ export default function transform(src: string, target: string) {
   fs.writeFileSync(path.resolve(__dirname, target), targetCode);
 }
 
-function componentTemplateBuilder(app: any) {
+function componentTemplateBuilder(app: App) {
   const componentTemplate = `
     export default class NAME extends Component {
       constructor(props) {
@@ -54,7 +56,7 @@ function componentTemplateBuilder(app: any) {
   const buildRequire = template(componentTemplate);
 
   const node = buildRequire({
-    NAME: app.script.name || 'Mod',
+    NAME: t.identifier(genComponentName(app.script.name)),
     STATE: t.objectExpression(app.script.data._statements)
   });
 
