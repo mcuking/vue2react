@@ -9,7 +9,7 @@ export default function vueIterator(vast: t.Node | t.Node[]) {
 
   traverse(vast, {
     ImportDeclaration(path: NodePath<t.ImportDeclaration>) {
-      visitor.importHandler(path.node);
+      visitor.importHandler(path);
     },
 
     ObjectMethod(path: NodePath<t.ObjectMethod>) {
@@ -38,8 +38,7 @@ export default function vueIterator(vast: t.Node | t.Node[]) {
       if (parent && t.isExportDefaultDeclaration(parent)) {
         switch (name) {
           case 'name':
-            const name = (path.node.value as t.StringLiteral).value;
-            visitor.nameHandler(name);
+            visitor.nameHandler(path);
             break;
           case 'data':
             const node = path.node.value;
@@ -69,12 +68,10 @@ export default function vueIterator(vast: t.Node | t.Node[]) {
             });
             break;
           case 'computed':
-            visitor.computedHandler((path.node.value as t.ObjectExpression)
-              .properties as t.ObjectMethod[]);
+            visitor.computedHandler(path);
             break;
           case 'props':
-            visitor.propsHandler(path, (path.node.value as t.ObjectExpression)
-              .properties as t.ObjectMethod[]);
+            visitor.propsHandler(path);
           default:
             break;
         }

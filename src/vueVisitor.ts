@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
-import { log } from './utils';
+import { log, formatComponentName } from './utils';
 import { Script } from './types';
 
 export default class vueVisitor {
@@ -18,12 +18,13 @@ export default class vueVisitor {
     };
   }
 
-  importHandler(node: t.ImportDeclaration) {
-    this.script.imports.push(node);
+  importHandler(path: NodePath<t.ImportDeclaration>) {
+    this.script.imports.push(path.node);
   }
 
-  nameHandler(name: string) {
-    this.script.name = name;
+  nameHandler(path: NodePath<t.ObjectProperty>) {
+    const name = (path.node.value as t.StringLiteral).value;
+    this.script.name = formatComponentName(name);
   }
 
   dataHandler(body: t.Node[], isObject: boolean) {
@@ -53,6 +54,7 @@ export default class vueVisitor {
     if (name === 'componentDidCatch') {
       params = [t.identifier('error'), t.identifier('info')];
     }
+
     const classMethod = t.classMethod(
       'method',
       t.identifier(name),
@@ -62,14 +64,20 @@ export default class vueVisitor {
     this.script.methods[name] = classMethod;
   }
 
-  computedHandler(body: t.ObjectMethod[]) {
-    body.forEach(node => {
+  computedHandler(path: NodePath<t.ObjectProperty>) {
+    const nodeList = (path.node.value as t.ObjectExpression)
+      .properties as t.ObjectMethod[];
+
+    nodeList.forEach(node => {
       this.script.computed[(node.key as t.Identifier).name] = node.body;
     });
   }
 
-  propsHandler(path: NodePath, body: t.ObjectMethod[]) {
-    body.forEach(node => {
+  propsHandler(path: NodePath<t.ObjectProperty>) {
+    const nodeList = (path.node.value as t.ObjectExpression)
+      .properties as t.ObjectMethod[];
+
+    nodeList.forEach(node => {
       const key = (node.key as t.Identifier).name;
       if (t.isIdentifier(node.value)) {
         // Support following syntax:

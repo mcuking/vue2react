@@ -9,7 +9,6 @@ import * as t from '@babel/types';
 
 import vueIterator from './vueIterator';
 import reactIterator from './reactIterator';
-import { genComponentName } from './utils';
 import { App } from './types';
 
 export default function transform(src: string, target: string) {
@@ -56,7 +55,7 @@ function componentTemplateBuilder(app: App) {
   const buildRequire = template(componentTemplate);
 
   const node = buildRequire({
-    NAME: t.identifier(genComponentName(app.script.name)),
+    NAME: t.identifier(app.script.name),
     STATE: t.objectExpression(app.script.data._statements)
   });
 
