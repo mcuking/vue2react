@@ -24,6 +24,7 @@
     "@babel/template": "^7.4.4",
     "@babel/traverse": "^7.4.3",
     "@babel/types": "^7.4.0",
+    "chalk": "^2.4.2",
     "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {

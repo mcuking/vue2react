@@ -1,6 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
+import { log } from './utils';
 import { Script } from './types';
 
 export default class vueVisitor {
@@ -137,8 +138,8 @@ export default class vueVisitor {
                       types.length > 1 ? 'typesOfArray' : types[0];
                     this.prop.typeValue = types.length > 1 ? types : types[0];
                   } else {
-                    console.error(
-                      `Vue-to-React: The type in ${
+                    log(
+                      `The type in ${
                         this.key
                       } prop only supports identifier or array expression, eg: Boolean, [String]`
                     );
@@ -176,9 +177,7 @@ export default class vueVisitor {
 
         path.traverse(fetchPropsContent, { prop, key });
       } else {
-        console.error(
-          `Vue-to-React: Not supports expression for the ${key} prop in props.`
-        );
+        log(`Not supports expression for the ${key} prop in props.`);
       }
     });
   }
@@ -207,11 +206,7 @@ function FunctionOrArrowFunctionVisitor(this: any, path: NodePath) {
         }
         break;
       case 'validator':
-        console.error(
-          `Vue-to-React: Not supports validator for the ${
-            this.key
-          } prop in props.`
-        );
+        log(`Not supports validator for the ${this.key} prop in props.`);
         break;
       default:
         break;
