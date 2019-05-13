@@ -21,11 +21,35 @@ export default {
   },
 
   props: {
+    list: Boolean,
+    text: [String, Number],
     title: {
       type: String,
-      default: "title"
+      default: "hello world"
+    },
+    list2: {
+      type: Array,
+      default: () => [],
+      require: true
+    },
+    list3: {
+      type: Object,
+      default: function() {
+        return { message: "hello" };
+      }
     }
   },
+
+  // static propType = {
+  //   title: PropTypes.string,
+  //   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  //   list: PropTypes.array.isRequired,
+  // }
+
+  // static defaultProps = {
+  //   title: "title",
+  //   list: []
+  // }
 
   data() {
     return {

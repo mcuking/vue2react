@@ -1,4 +1,5 @@
 import react, { Component } from "react";
+import PropTypes from "PropType";
 import Loader from "./Loader";
 export default class cool extends Component {
   constructor(props) {
@@ -8,6 +9,21 @@ export default class cool extends Component {
       name: "tom"
     };
   }
+
+  static propType = {
+    list: PropTypes.boolean,
+    text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    title: PropTypes.string,
+    list2: PropTypes.array.isRequired,
+    list3: PropTypes.object
+  };
+  static defaultProps = {
+    title: "hello world",
+    list2: [],
+    list3: {
+      message: "hello"
+    }
+  };
 
   componentDidMount() {
     console.log(this.name);
