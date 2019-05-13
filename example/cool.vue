@@ -14,7 +14,7 @@
 import Loader from "./Loader";
 
 export default {
-  name: "cool",
+  name: "cool-demo",
 
   component: {
     Loader
@@ -39,17 +39,6 @@ export default {
       }
     }
   },
-
-  // static propType = {
-  //   title: PropTypes.string,
-  //   text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  //   list: PropTypes.array.isRequired,
-  // }
-
-  // static defaultProps = {
-  //   title: "title",
-  //   list: []
-  // }
 
   data() {
     return {
