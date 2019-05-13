@@ -2,6 +2,7 @@ import { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
 import { App } from './types';
+import { genPropType, genDefaultProps } from './utils';
 
 export default class reactVisitor {
   app: App;
@@ -34,12 +35,16 @@ export default class reactVisitor {
     path.node.body.unshift(importReact);
   }
 
+  genStaticProps(path: NodePath<t.ClassBody>) {
+    path.node.body.push(genPropType(this.app.script.props));
+    path.node.body.push(genDefaultProps(this.app.script.props));
+  }
+
   genClassMethods(path: NodePath<t.ClassBody>) {
     for (const name in this.app.script.methods) {
       if (this.app.script.methods.hasOwnProperty(name)) {
         const classMethod = this.app.script.methods[name];
-        const nodeLists = path.node.body;
-        nodeLists.push(classMethod);
+        path.node.body.push(classMethod);
       }
     }
   }
