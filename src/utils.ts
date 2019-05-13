@@ -103,7 +103,7 @@ export function genDefaultProps(props: { [name: string]: any }) {
   );
 }
 
-export function genComponentName(name = 'react-component'): string {
+export function formatComponentName(name = 'react-component'): string {
   if (!name) {
     return 'ReactComponent';
   } else {
