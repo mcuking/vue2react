@@ -6,7 +6,10 @@ export default class CoolDemo extends Component {
     super(props);
     this.state = {
       show: true,
-      name: "tom"
+      name: "tom",
+      item: {
+        id: "123"
+      }
     };
   }
 
@@ -25,8 +28,15 @@ export default class CoolDemo extends Component {
     }
   };
 
+  componentWillMount() {
+    this.setState({
+      name: "jerry"
+    });
+    this.state.name.we = 1;
+  }
+
   componentDidMount() {
-    console.log(this.name);
+    console.log(this.state.name);
     document.addEventListener("click", this.handlePageClick);
   }
 
@@ -35,16 +45,22 @@ export default class CoolDemo extends Component {
   }
 
   handlePageClick(e) {
-    console.log("page click", e);
+    const {
+      name
+    } = this;
+    console.log("page click", e, name);
   }
 
   handleTitleClick(e) {
-    console.log("title clicked", e);
+    const {
+      id
+    } = this.state.item;
+    console.log("title clicked", e, id);
   }
 
   render() {
-    const reverseName = this.name.split("").reverse().join("");
-    const wrappedTitle = `Title is ${this.title}`;
+    const reverseName = this.state.name.split("").reverse().join("");
+    const wrappedTitle = `Title is ${this.props.title}`;
   }
 
 }

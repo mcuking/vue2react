@@ -1,8 +1,9 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
-import { log, formatComponentName } from './utils';
+import { cycle, log, formatComponentName } from './utils';
 import { Script } from './types';
+import formatThisExpression from './formatThis';
 
 export default class vueVisitor {
   script: Script;
@@ -49,7 +50,13 @@ export default class vueVisitor {
     });
   }
 
-  methodsHandler(name: string, params: any[], body: t.BlockStatement) {
+  methodsHandler(path: NodePath<t.ObjectMethod>, isCycle: boolean) {
+    const name = isCycle
+      ? cycle[(path.node.key as t.Identifier).name]
+      : (path.node.key as t.Identifier).name;
+    let params = isCycle ? [] : path.node.params;
+    const blockStatement = formatThisExpression(path, this.script);
+
     // transform vue method and cylce to react method and cycle
     if (name === 'componentDidCatch') {
       params = [t.identifier('error'), t.identifier('info')];
@@ -59,18 +66,14 @@ export default class vueVisitor {
       'method',
       t.identifier(name),
       params,
-      body
+      blockStatement
     );
     this.script.methods[name] = classMethod;
   }
 
-  computedHandler(path: NodePath<t.ObjectProperty>) {
-    const nodeList = (path.node.value as t.ObjectExpression)
-      .properties as t.ObjectMethod[];
-
-    nodeList.forEach(node => {
-      this.script.computed[(node.key as t.Identifier).name] = node.body;
-    });
+  computedHandler(path: NodePath<t.ObjectMethod>) {
+    const blockStatement = formatThisExpression(path, this.script);
+    this.script.computed[(path.node.key as t.Identifier).name] = blockStatement;
   }
 
   propsHandler(path: NodePath<t.ObjectProperty>) {

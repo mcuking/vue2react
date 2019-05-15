@@ -1,10 +1,8 @@
 import * as t from '@babel/types';
 import chalk from 'chalk';
 
-import { App } from './types';
-
 // Life-cycle methods relations mapping
-export const cycle = {
+export const cycle: { [name: string]: any } = {
   created: 'componentWillMount',
   mounted: 'componentDidMount',
   updated: 'componentDidUpdate',
