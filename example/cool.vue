@@ -43,8 +43,16 @@ export default {
   data() {
     return {
       show: true,
-      name: "tom"
+      name: "tom",
+      item: {
+        id: "123"
+      }
     };
+  },
+
+  created() {
+    this.name = "jerry";
+    this.name.we = 1;
   },
 
   mounted() {
@@ -58,11 +66,13 @@ export default {
 
   methods: {
     handlePageClick(e) {
-      console.log("page click", e);
+      const { name } = this;
+      console.log("page click", e, name);
     },
 
     handleTitleClick(e) {
-      console.log("title clicked", e);
+      const { id } = this.item;
+      console.log("title clicked", e, id);
     }
   },
 
