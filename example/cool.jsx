@@ -58,9 +58,17 @@ export default class CoolDemo extends Component {
     console.log("title clicked", e, id);
   }
 
+  reverseName() {
+    return this.state.name.split("").reverse().join("");
+  }
+
+  wrappedTitle() {
+    return `Title is ${this.props.title}`;
+  }
+
   render() {
-    const reverseName = this.state.name.split("").reverse().join("");
-    const wrappedTitle = `Title is ${this.props.title}`;
+    this.reverseName();
+    this.wrappedTitle();
   }
 
 }

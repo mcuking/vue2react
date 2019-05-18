@@ -73,7 +73,12 @@ export default class vueVisitor {
 
   computedHandler(path: NodePath<t.ObjectMethod>) {
     const blockStatement = formatThisExpression(path, this.script);
-    this.script.computed[(path.node.key as t.Identifier).name] = blockStatement;
+    this.script.computed[(path.node.key as t.Identifier).name] = t.classMethod(
+      'method',
+      path.node.key,
+      [],
+      blockStatement
+    );
   }
 
   propsHandler(path: NodePath<t.ObjectProperty>) {
