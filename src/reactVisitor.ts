@@ -41,30 +41,27 @@ export default class reactVisitor {
   }
 
   genClassMethods(path: NodePath<t.ClassBody>) {
-    for (const name in this.app.script.methods) {
-      if (this.app.script.methods.hasOwnProperty(name)) {
-        const classMethod = this.app.script.methods[name];
-        path.node.body.push(classMethod);
+    const methods = { ...this.app.script.methods, ...this.app.script.computed };
+    for (const name in methods) {
+      if (methods.hasOwnProperty(name)) {
+        path.node.body.push(methods[name]);
       }
     }
   }
 
   genRenderMethods(path: NodePath<t.ClassBody>) {
-    // process computed props
+    // process computed props, call the computed methods in render function
     let blocks: t.Node[] = [];
     for (const name in this.app.script.computed) {
       if (this.app.script.computed.hasOwnProperty(name)) {
-        const nodeList = this.app.script.computed[name]['body'];
-        for (const node of nodeList) {
-          if (node.type !== 'ReturnStatement') {
-            blocks.push(node);
-          } else {
-            const node2 = t.variableDeclaration('const', [
-              t.variableDeclarator(t.identifier(name), node.argument)
-            ]);
-            blocks.push(node2);
-          }
-        }
+        blocks.push(
+          t.expressionStatement(
+            t.callExpression(
+              t.memberExpression(t.thisExpression(), t.identifier(name)),
+              []
+            )
+          )
+        );
       }
     }
 

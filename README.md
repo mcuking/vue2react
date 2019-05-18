@@ -4,9 +4,9 @@ A tool that transforms Vue component to React component.
 
 The tool will be more stronger and supports more syntax.
 
-Here is an example:
+## Example:
 
-##### Vue Code:
+### From(Vue Code)
 
 ```javascript
 <template>
@@ -101,21 +101,9 @@ export default {
   }
 };
 </script>
-
-<style>
-.title {
-  font-size: 28px;
-  color: #333;
-}
-
-.name {
-  font-size: 32px;
-  color: #999;
-}
-</style>
 ```
 
-##### React Code:
+### To(React Code)
 
 ```javascript
 import react, { Component } from 'react';
