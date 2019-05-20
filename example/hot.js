@@ -1,6 +1,7 @@
 import react, { Component } from "react";
 import PropTypes from "PropType";
 import Loader from "./Loader";
+import "index.css";
 export default class CoolDemo extends Component {
   constructor(props) {
     super(props);
