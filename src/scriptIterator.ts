@@ -1,10 +1,16 @@
+import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import vueVisitor from './vueVisitor';
+import scriptVisitor from './scriptVisitor';
 
-export default function vueIterator(vast: t.Node | t.Node[]) {
-  const visitor = new vueVisitor();
+export default function scriptIterator(script: string) {
+  // AST for script in Vue
+  const vast = parse(script, {
+    sourceType: 'module'
+  });
+
+  const visitor = new scriptVisitor();
 
   // collect props and data key firstly
   traverse(vast, {

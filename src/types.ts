@@ -9,9 +9,7 @@ export interface Script {
   imports: t.ImportDeclaration[];
 }
 
-export interface Template {}
-
 export interface App {
-  template: Template;
+  template: t.Expression | undefined;
   script: Script;
 }

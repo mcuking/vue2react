@@ -69,6 +69,7 @@ export default class CoolDemo extends Component {
   render() {
     this.reverseName();
     this.wrappedTitle();
+    return;
   }
 
 }
