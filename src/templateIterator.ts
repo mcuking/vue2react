@@ -12,7 +12,7 @@ export default function templateIterator(template: string, script: Script) {
   );
 
   if (errors.length > 0) {
-    errors.forEach((error: string) => {
+    return errors.forEach((error: string) => {
       log(error);
     });
   }

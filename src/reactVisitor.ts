@@ -11,12 +11,19 @@ export default class reactVisitor {
     this.app = app;
   }
 
-  genImports(path: NodePath<t.Program>) {
+  genImports(path: NodePath<t.Program>, hasStyle: boolean) {
+    // add 'import ./index.css'
+    if (hasStyle) {
+      const importCSS = t.importDeclaration([], t.stringLiteral('index.css'));
+      path.node.body.unshift(importCSS);
+    }
+
     this.app.script.imports.forEach(node => {
       node.leadingComments = [];
       path.node.body.unshift(node);
     });
 
+    // add 'import PropTypes from "PropType";'
     if (Object.keys(this.app.script.props).length) {
       const importPropTypes = t.importDeclaration(
         [t.importDefaultSpecifier(t.identifier('PropTypes'))],
@@ -25,6 +32,7 @@ export default class reactVisitor {
       path.node.body.unshift(importPropTypes);
     }
 
+    // add 'import react, { Component } from "react";'
     const importReact = t.importDeclaration(
       [
         t.importDefaultSpecifier(t.identifier('react')),

@@ -1,11 +1,12 @@
 import * as t from '@babel/types';
 
+export type anyObject = { [name: string]: any };
 export interface Script {
   name: string;
-  data: { [name: string]: any };
-  props: { [name: string]: any };
-  methods: { [name: string]: any };
-  computed: { [name: string]: any };
+  data: anyObject;
+  props: anyObject;
+  methods: anyObject;
+  computed: anyObject;
   imports: t.ImportDeclaration[];
 }
 

@@ -1,6 +1,6 @@
 {
   "name": "Vue-to-React",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Transform Vue component to React component",
   "main": "index.js",
   "scripts": {
