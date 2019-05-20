@@ -5,7 +5,7 @@ import { cycle, log, formatComponentName } from './utils';
 import { Script } from './types';
 import formatThisExpression from './formatThis';
 
-export default class vueVisitor {
+export default class scriptVisitor {
   script: Script;
 
   constructor() {

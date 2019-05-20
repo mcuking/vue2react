@@ -65,6 +65,8 @@ export default class reactVisitor {
       }
     }
 
+    blocks.push(t.returnStatement(this.app.template));
+
     // generate render function
     const render = t.classMethod(
       'method',
