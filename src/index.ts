@@ -9,6 +9,7 @@ import templateIterator from './templateIterator';
 import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
 import { anyObject } from './types';
+import output from './output';
 import { log } from './utils';
 
 export default function transform(
@@ -22,12 +23,14 @@ export default function transform(
   });
 
   if (result.errors.length > 0) {
-    return result.errors.forEach((error: string) => log(error));
+    return result.errors.forEach((error: string) =>
+      log(`${error} ---vue-template-compiler: parseComponent`)
+    );
   }
 
   const preScript = result.script.content;
   const preTemplate = result.template.content;
-  const { styles } = result;
+  const styles = result.styles;
 
   const hasStyle = styles.length > 0;
 
@@ -49,9 +52,10 @@ export default function transform(
     targetFilename += '.js';
   }
 
-  fs.writeFileSync(
+  output(
+    targetCode,
     path.resolve(__dirname, path.join(targetPath, targetFilename)),
-    targetCode
+    true
   );
 
   // write react css file, delete null line in the start and end
@@ -60,9 +64,10 @@ export default function transform(
       .map((style: anyObject) => style.content.replace(/^\s+|\s+$/g, ''))
       .join('\n');
 
-    fs.writeFileSync(
+    output(
+      styleContent,
       path.resolve(__dirname, path.join(targetPath, 'index.css')),
-      styleContent
+      false
     );
   }
 }
