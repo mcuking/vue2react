@@ -10,20 +10,27 @@ The tool will be more stronger and supports more syntax.
 
 ```javascript
 <template>
-  <div>
-    <p class="title"
-       @click="handleTitleClick">{{title}}</p>
-    <p class="name"
-       v-if="show">{{name}}</p>
-    <p class="name"
-       v-if="show">{{reverseName}}</p>
+  <div v-if="show"
+       v-show="show"
+       v-html="html"
+       :a="list"
+       @click="handleTitleClick"
+       b="1">
+    <p v-for="item in list"
+       :key="item.key"
+       v-bind:rt="show"
+       sd="ss"
+       :swe="show"
+       tr="23"
+       :class="{'wrapper': show}"
+       class="er df">{{item.value}}</p>
+    <h1 href="">{{reverseName}}</h1>
     <loader />
   </div>
 </template>
 
 <script>
 import Loader from "./Loader";
-
 export default {
   name: "cool-demo",
 
@@ -53,6 +60,7 @@ export default {
 
   data() {
     return {
+      html: "<div>hello, i am hack</div>",
       show: true,
       name: "tom",
       item: {
@@ -101,18 +109,34 @@ export default {
   }
 };
 </script>
+
+<style>
+.title {
+  font-size: 28px;
+  color: #333;
+}
+
+.name {
+  font-size: 32px;
+  color: #999;
+}
+</style>
 ```
 
 ### To(React Code)
+
+#### JS 文件
 
 ```javascript
 import react, { Component } from 'react';
 import PropTypes from 'PropType';
 import Loader from './Loader';
+import 'index.css';
 export default class CoolDemo extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      html: '<div>hello, i am hack</div>',
       show: true,
       name: 'tom',
       item: {
@@ -162,12 +186,68 @@ export default class CoolDemo extends Component {
     console.log('title clicked', e, id);
   }
 
-  render() {
-    const reverseName = this.state.name
+  reverseName() {
+    return this.state.name
       .split('')
       .reverse()
       .join('');
-    const wrappedTitle = `Title is ${this.props.title}`;
   }
+
+  wrappedTitle() {
+    return `Title is ${this.props.title}`;
+  }
+
+  render() {
+    const { show, html } = this.data;
+    const { list } = this.props;
+    const { handleTitleClick } = this;
+    const reverseName = this.reverseName();
+    return (
+      <div>
+        {show && (
+          <div
+            a={list}
+            b="1"
+            onClick={handleTitleClick}
+            style={{
+              display: show ? 'block' : 'none'
+            }}
+            dangerouslySetInnerHTML={{
+              __html: html
+            }}
+          >
+            {list.map(item => (
+              <p
+                rt={show}
+                sd="ss"
+                swe={show}
+                tr="23"
+                className="er df"
+                key={item.key}
+              >
+                {item.value}
+              </p>
+            ))}
+            <h1 href="">{reverseName}</h1>
+            <loader />
+          </div>
+        )}
+      </div>
+    );
+  }
+}
+```
+
+#### CSS 文件
+
+```css
+.title {
+  font-size: 28px;
+  color: #333;
+}
+
+.name {
+  font-size: 32px;
+  color: #999;
 }
 ```
