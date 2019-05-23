@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
-import { cycle, log, formatComponentName } from './utils';
+import { cycle, log, formatComponentName } from './utils/tools';
 import { Script } from './types';
 import formatThisExpression from './formatThis';
 

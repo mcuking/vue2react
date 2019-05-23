@@ -10,7 +10,7 @@ import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
 import { anyObject } from './types';
 import output from './output';
-import { log } from './utils';
+import { log } from './utils/tools';
 
 export default function transform(
   src: string,
