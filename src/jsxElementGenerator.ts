@@ -2,12 +2,13 @@ import * as t from '@babel/types';
 
 import eventMap from './utils/eventMap';
 import { log } from './utils/tools';
-import { anyObject } from './types';
+import { anyObject, Template } from './types';
 
 export default function jsxElementGenerator(
   vnode: anyObject,
-  parentElement: any
-) {
+  parentElement: t.JSXElement | null,
+  attrsCollector: Set<string>
+): Template {
   const {
     type,
     events,
@@ -18,23 +19,27 @@ export default function jsxElementGenerator(
     ifConditions,
     alias
   } = vnode;
-  let element: any;
-  let wrappedElement: any;
+  let element: t.JSXElement;
+  let wrappedElement: t.JSXExpressionContainer | t.JSXElement | t.JSXText;
+  let ast: t.JSXElement;
 
   if (type === 1) {
-    // Support following syntax:
-    // <div id="34we3" :data="list" v-bind:content="content"/> -> <div id="34we3" data={list} content={content}/>
-    let commonAttrs: any[] = [];
+    let commonAttrs: t.JSXAttribute[] = [];
     if (attrs) {
       commonAttrs = attrs.map((attr: anyObject) => {
         if (attr.dynamic === false) {
           // attr.dynamic === false
+          // Support following syntax:
+          // <div :data="list" v-bind:content="content"/> -> <div data={list} content={content}/>
+          attrsCollector.add(attr.value);
           return t.jSXAttribute(
             t.jSXIdentifier(attr.name),
             t.jSXExpressionContainer(t.identifier(attr.value))
           );
         } else {
           // attr.dynamic === undefined
+          // Support following syntax:
+          // <div id="34we3"/> -> <div id="34we3"/>
           return t.jSXAttribute(
             t.jSXIdentifier(attr.name),
             t.stringLiteral(JSON.parse(attr.value))
@@ -45,7 +50,7 @@ export default function jsxElementGenerator(
 
     // Support following syntax:
     // <div class="wrapper"/> -> <div className="wrapper"/>
-    let staticClassAttrs: any[] = [];
+    let staticClassAttrs: t.JSXAttribute[] = [];
     if (staticClass) {
       staticClassAttrs.push(
         t.jSXAttribute(
@@ -56,19 +61,20 @@ export default function jsxElementGenerator(
     }
 
     // Support following syntax:
-    // <div v-on:blur="handleBlur" @click=""handleClick/> -> <div onClick={handleClick} onBlur={handleBlur}/>
-    let eventAttrs: any[] = [];
+    // <div v-on:blur="handleBlur" @click="handleClick"/> -> <div onClick={handleClick} onBlur={handleBlur}/>
+    let eventAttrs: t.JSXAttribute[] = [];
     if (events) {
-      Object.keys(events).forEach((key: string) => {
+      Object.keys(events).forEach(key => {
         const eventName = eventMap[key];
         if (!eventName) {
           log(`Not support event name`);
           return;
         }
+        attrsCollector.add(events[key].value);
         eventAttrs.push(
           t.jSXAttribute(
             t.jSXIdentifier(eventName),
-            t.stringLiteral(events[key].value)
+            t.jSXExpressionContainer(t.identifier(events[key].value))
           )
         );
       });
@@ -76,8 +82,9 @@ export default function jsxElementGenerator(
 
     // Support following syntax:
     // <div :key="item.id"/> -> <div key={item.id}/>
-    let keyAttrs: any[] = [];
+    let keyAttrs: t.JSXAttribute[] = [];
     if (key) {
+      attrsCollector.add(key);
       keyAttrs.push(
         t.jSXAttribute(
           t.jSXIdentifier('key'),
@@ -86,9 +93,10 @@ export default function jsxElementGenerator(
       );
     }
 
-    let directivesAttr: any[] = [];
+    let directivesAttr: t.JSXAttribute[] = [];
     if (directives) {
       directives.forEach((directive: anyObject) => {
+        attrsCollector.add(directive.value);
         switch (directive.rawName) {
           case 'v-show':
             // Support following syntax:
@@ -167,13 +175,12 @@ export default function jsxElementGenerator(
   } else if (type === 2) {
     // Support following syntax:
     // {{name}} -> {name}
+    attrsCollector.add(vnode.text.replace(/{{/g, '').replace(/}}/g, ''));
     wrappedElement = t.jSXText(
       vnode.text.replace(/{{/g, '{').replace(/}}/g, '}')
     );
-  } else if (type === 3) {
-    if (vnode.text) {
-      wrappedElement = t.jSXText(vnode.text);
-    }
+  } else {
+    wrappedElement = t.jSXText(vnode.text);
   }
 
   if (parentElement) {
@@ -182,15 +189,25 @@ export default function jsxElementGenerator(
 
   if (vnode.children && vnode.children.length > 0) {
     vnode.children.forEach((child: anyObject) => {
-      jsxElementGenerator(child, element);
+      jsxElementGenerator(child, element, attrsCollector);
     });
   }
 
-  return t.isJSXExpressionContainer(wrappedElement)
-    ? t.jSXElement(
-        t.jSXOpeningElement(t.jSXIdentifier('div'), []),
-        t.jSXClosingElement(t.jSXIdentifier('div')),
-        [wrappedElement]
-      )
-    : wrappedElement;
+  if (
+    t.isJSXExpressionContainer(wrappedElement) ||
+    t.isJSXText(wrappedElement)
+  ) {
+    ast = t.jSXElement(
+      t.jSXOpeningElement(t.jSXIdentifier('div'), []),
+      t.jSXClosingElement(t.jSXIdentifier('div')),
+      [wrappedElement]
+    );
+  } else {
+    ast = wrappedElement as t.JSXElement;
+  }
+
+  return {
+    ast,
+    attrsCollector
+  };
 }

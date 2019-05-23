@@ -2,9 +2,9 @@ const compiler = require('vue-template-compiler');
 
 import jsxElementGenerator from './jsxElementGenerator';
 import { log } from './utils/tools';
-import { Script } from './types';
+import { Template } from './types';
 
-export default function templateIterator(template: string, script: Script) {
+export default function templateIterator(template: string): Template {
   const { ast, errors, tips } = compiler.compile(template, {
     whitespace: 'condense'
   });
@@ -21,5 +21,5 @@ export default function templateIterator(template: string, script: Script) {
     });
   }
 
-  return jsxElementGenerator(ast, null);
+  return jsxElementGenerator(ast, null, new Set());
 }

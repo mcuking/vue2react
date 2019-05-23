@@ -68,15 +68,17 @@ export default class CoolDemo extends Component {
   }
 
   render() {
-    this.reverseName();
-    this.wrappedTitle();
+    const { show, html } = this.data;
+    const { list } = this.props;
+    const { handleTitleClick } = this;
+    const reverseName = this.reverseName();
     return (
       <div>
         {show && (
           <div
             a={list}
             b="1"
-            onClick="handleTitleClick"
+            onClick={handleTitleClick}
             style={{
               display: show ? 'block' : 'none'
             }}
