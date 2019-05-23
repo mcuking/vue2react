@@ -1,18 +1,25 @@
 <template>
-  <div>
-    <p class="title"
-       @click="handleTitleClick">{{title}}</p>
-    <p class="name"
-       v-if="show">{{name}}</p>
-    <p class="name"
-       v-if="show">{{reverseName}}</p>
+  <div v-if="show"
+       v-show="show"
+       v-html="html"
+       :a="list"
+       @click="handleTitleClick"
+       b="1">
+    <p v-for="item in list"
+       :key="item.key"
+       v-bind:rt="show"
+       sd="ss"
+       :swe="show"
+       tr="23"
+       :class="{'wrapper': show}"
+       class="er df">{{item.value}}</p>
+    <h1 href="">{{reverseName}}</h1>
     <loader />
   </div>
 </template>
 
 <script>
 import Loader from "./Loader";
-
 export default {
   name: "cool-demo",
 
@@ -42,6 +49,7 @@ export default {
 
   data() {
     return {
+      html: "<div>hello, i am hack</div>",
       show: true,
       name: "tom",
       item: {
