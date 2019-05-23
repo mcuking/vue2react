@@ -58,22 +58,82 @@ export default class reactVisitor {
   }
 
   genRenderMethods(path: NodePath<t.ClassBody>) {
-    // process computed props, call the computed methods in render function
     let blocks: t.Node[] = [];
-    for (const name in this.app.script.computed) {
-      if (this.app.script.computed.hasOwnProperty(name)) {
-        blocks.push(
-          t.expressionStatement(
-            t.callExpression(
-              t.memberExpression(t.thisExpression(), t.identifier(name)),
-              []
-            )
-          )
+
+    let dataProperties: t.ObjectProperty[] = [];
+    let propProperties: t.ObjectProperty[] = [];
+    let methodProperties: t.ObjectProperty[] = [];
+    let computed: string[] = [];
+
+    this.app.template.attrsCollector.forEach(attr => {
+      if (this.app.script.data[attr]) {
+        dataProperties.push(
+          t.objectProperty(t.identifier(attr), t.identifier(attr), false, true)
         );
+      } else if (this.app.script.props[attr]) {
+        propProperties.push(
+          t.objectProperty(t.identifier(attr), t.identifier(attr), false, true)
+        );
+      } else if (this.app.script.methods[attr]) {
+        methodProperties.push(
+          t.objectProperty(t.identifier(attr), t.identifier(attr), false, true)
+        );
+      } else if (this.app.script.computed[attr]) {
+        computed.push(attr);
       }
+      return;
+    });
+
+    if (dataProperties.length > 0) {
+      blocks.push(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(dataProperties as any),
+            t.memberExpression(t.thisExpression(), t.identifier('data'))
+          )
+        ])
+      );
     }
 
-    blocks.push(t.returnStatement(this.app.template));
+    if (propProperties.length > 0) {
+      blocks.push(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(propProperties as any),
+            t.memberExpression(t.thisExpression(), t.identifier('props'))
+          )
+        ])
+      );
+    }
+
+    if (methodProperties.length > 0) {
+      blocks.push(
+        t.variableDeclaration('const', [
+          t.variableDeclarator(
+            t.objectPattern(methodProperties as any),
+            t.thisExpression()
+          )
+        ])
+      );
+    }
+
+    if (computed.length > 0) {
+      computed.forEach(name => {
+        blocks.push(
+          t.variableDeclaration('const', [
+            t.variableDeclarator(
+              t.identifier(name),
+              t.callExpression(
+                t.memberExpression(t.thisExpression(), t.identifier(name)),
+                []
+              )
+            )
+          ])
+        );
+      });
+    }
+
+    blocks.push(t.returnStatement(this.app.template.ast));
 
     // generate render function
     const render = t.classMethod(

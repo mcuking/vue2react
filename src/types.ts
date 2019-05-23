@@ -10,7 +10,12 @@ export interface Script {
   imports: t.ImportDeclaration[];
 }
 
+export interface Template {
+  ast: t.JSXElement | undefined;
+  attrsCollector: Set<string>;
+}
+
 export interface App {
-  template: t.Expression | undefined;
+  template: Template;
   script: Script;
 }

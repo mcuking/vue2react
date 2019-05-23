@@ -35,7 +35,7 @@ export default function transform(
   const hasStyle = styles.length > 0;
 
   const script = scriptIterator(preScript);
-  const template = templateIterator(preTemplate, script);
+  const template = templateIterator(preTemplate);
 
   const app = {
     script,
