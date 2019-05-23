@@ -12,9 +12,9 @@ export const cycle: { [name: string]: any } = {
 
 export function log(msg: string, type = 'error') {
   if (type === 'error') {
-    return console.log(chalk.red(`[Vue-toReact]: ${msg}`));
+    return console.log(chalk.red(`[Vue-to-React]: ${msg}`));
   }
-  return console.log(chalk.green(`[Vue-toReact]: ${msg}`));
+  return console.log(chalk.green(`[Vue-to-React]: ${msg}`));
 }
 
 export function genPropType(props: { [name: string]: any }) {
