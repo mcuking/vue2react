@@ -1,0 +1,42 @@
+import { anyObject } from '../types';
+
+const eventMap: anyObject = {
+  click: 'onClick',
+  dblclick: 'onDoubleClick',
+  abort: 'onAbort',
+  change: 'onChange',
+  input: 'onInput',
+  error: 'onError',
+  focus: 'onFocus',
+  blur: 'onBlur',
+  keydown: 'onKeyDown',
+  keyup: 'onKeyUp',
+  keypress: 'onKeyPress',
+  load: 'onLoad',
+  mousedown: 'onMouseDown',
+  mouseup: 'onMouseUp',
+  mousemove: 'onMouseMove',
+  mouseenter: 'onMouseEnter',
+  mouseleave: 'onMouseLeave',
+  mouseout: 'onMouseOut',
+  mouseover: 'onMouseOver',
+  reset: 'onReset',
+  resize: 'onResize',
+  select: 'onSelect',
+  submit: 'onSubmit',
+  unload: 'onUnload',
+  drag: 'onDrag',
+  dragend: 'onDragEnd',
+  dragenter: 'onDragEnter',
+  dragexit: 'onDragExit',
+  dragleave: 'onDragLeave',
+  dragover: 'onDragOver',
+  dragstart: 'onDragStart',
+  drop: 'onDrop',
+  touchstart: 'onTouchStart',
+  touchend: 'onTouchEnd',
+  touchcancel: 'onTouchCancel',
+  touchmove: 'onTouchMove'
+};
+
+export default eventMap;
