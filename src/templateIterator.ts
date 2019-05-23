@@ -1,27 +1,25 @@
 const compiler = require('vue-template-compiler');
 
-import traverse, { NodePath } from '@babel/traverse';
-import * as t from '@babel/types';
-
-import { log } from './utils';
+import jsxElementGenerator from './jsxElementGenerator';
+import { log } from './utils/tools';
 import { Script } from './types';
 
 export default function templateIterator(template: string, script: Script) {
-  const { ast, render, staticRenderFns, errors, tips } = compiler.compile(
-    template
-  );
+  const { ast, errors, tips } = compiler.compile(template, {
+    whitespace: 'condense'
+  });
 
   if (errors.length > 0) {
     return errors.forEach((error: string) => {
-      log(error);
+      log(`${error} ---vue-template-compiler: compile`);
     });
   }
 
   if (tips.length > 0) {
     tips.forEach((tip: string) => {
-      log(tip);
+      log(`${tip} ---vue-template-compiler: compile`, 'tip');
     });
   }
 
-  return undefined;
+  return jsxElementGenerator(ast, null);
 }
