@@ -1,10 +1,45 @@
-# Vue-to-React
+# vue2react
 
 A tool that transforms Vue component to React component.
 
 The tool will be more stronger and supports more syntax.
 
-## Example:
+## Install
+
+```bash
+npm i vue2react
+```
+
+or
+
+```bash
+yarn add vue2react
+```
+
+## Usage
+
+bash example
+
+```bash
+vtr -i hello.vue -o ./screen -n nihao.js
+vtr hello.vue ./screen nihao.js
+vtr hello.vue
+```
+
+vtr help infomation
+
+```bash
+Usage: vtr [options]
+
+Options:
+  -V, --version  output the version number
+  -i, --input    the input path for vue component
+  -o, --output   the output path for react component, which default value is process.cwd()
+  -n, --name     the output file name, which default value is "react.js"
+  -h, --help     output usage information
+```
+
+## Example
 
 ### From(Vue Code)
 

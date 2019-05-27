@@ -1,0 +1,72 @@
+#! /usr/bin/env node
+
+const path = require('path');
+const fs = require('fs');
+const program = require('commander');
+const inquirer = require('inquirer');
+
+const transform = require('../lib/index.js').default;
+const { log } = require('../lib/utils/tools.js');
+const pkg = require('../package.json');
+
+program
+    .version(pkg.version)
+    .usage('[options]')
+    .option('-i, --input', 'the input path for vue component')
+    .option('-o, --output', 'the output path for react component, which default value is process.cwd()')
+    .option('-n, --name', 'the output file name, which default value is "react.js"')
+    .parse(process.argv);
+
+let src = program.args[0];
+let dist = program.args[1] ? program.args[1] : process.cwd();
+let name = program.args[2] ? program.args[2] : 'react.js';
+
+src = path.resolve(process.cwd(), src);
+dist = path.resolve(process.cwd(), dist);
+
+if (!/\.vue$/.test(src)) {
+    log(`Not support the file format: ${src}`);
+    process.exit();
+}
+
+if (!fs.existsSync(src)) {
+    log(`The file does not exist: ${src}`);
+    process.exit();
+}
+
+if (!fs.statSync(src).isFile()) {
+    log(`The source file is not file: ${src}`);
+    process.exit();
+}
+
+if (!fs.statSync(src).isFile()) {
+    log(`The source file is not file: ${src}`);
+    process.exit();
+}
+
+if (!fs.existsSync(dist)) {
+    log(`The dist directory path does not exist: ${dist}`);
+    process.exit();
+}
+
+if (!/\.js$/.test(name)) {
+    name += '.js';
+}
+
+const targetPath = path.resolve(process.cwd(), path.join(dist, name));
+
+if (fs.existsSync(targetPath)) {
+    inquirer.prompt([{
+        type: 'confirm',
+        message: 'The file: ${name} already exists in the output directory. Continue?',
+        name: 'ok'
+    }]).then((res) => {
+        if (res.ok) {
+            transform(src, targetPath, dist);
+        } else {
+            process.exit();
+        }
+    })
+}
+
+transform(src, targetPath, dist);
