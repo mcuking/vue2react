@@ -1,17 +1,24 @@
 {
-  "name": "Vue-to-React",
-  "version": "0.2.0",
+  "name": "vue2react",
+  "version": "0.3.4",
   "description": "Transform Vue component to React component",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "scripts": {
-    "build": "rm -rf ./lib && tsc --target es2015 --declaration",
-    "build-bundle": "rm -rf ./dist && webpack"
+    "build": "rm -rf ./lib && tsc --target es2015 --declaration"
+  },
+  "bin": {
+    "vtr": "./bin/vtr"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mcuking/vue-to-react.git"
   },
   "keywords": [],
+  "files": [
+    "lib",
+    "bin"
+  ],
   "author": "",
   "license": "ISC",
   "bugs": {
@@ -25,6 +32,7 @@
     "@babel/traverse": "^7.4.3",
     "@babel/types": "^7.4.0",
     "chalk": "^2.4.2",
+    "commander": "^2.20.0",
     "prettier-eslint": "^8.8.2",
     "vue-template-compiler": "^2.6.10"
   },
@@ -33,9 +41,6 @@
     "@types/babel-template": "^6.25.2",
     "@types/babel-traverse": "^6.25.5",
     "@types/node": "^11.13.7",
-    "ts-loader": "^5.4.3",
-    "typescript": "^3.4.5",
-    "webpack": "^4.30.0",
-    "webpack-cli": "^3.3.1"
+    "typescript": "^3.4.5"
   }
 }
