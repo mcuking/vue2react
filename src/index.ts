@@ -8,14 +8,14 @@ import scriptIterator from './scriptIterator';
 import templateIterator from './templateIterator';
 import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
-import { anyObject } from './types';
 import output from './output';
 import { log } from './utils/tools';
+import { anyObject } from './types';
 
 export default function transform(
   src: string,
   targetPath: string,
-  targetFilename: string
+  dist: string
 ) {
   const sourceCode = fs.readFileSync(path.resolve(__dirname, src), 'utf8');
   const result = compiler.parseComponent(sourceCode, {
@@ -48,28 +48,13 @@ export default function transform(
   const targetCode = generate(targetAst).code;
 
   // write react js file
-  if (!/\.js/.test(targetFilename)) {
-    targetFilename += '.js';
-  }
-
-  output(
-    targetCode,
-    path.resolve(__dirname, path.join(targetPath, targetFilename)),
-    true
-  );
+  output(targetCode, targetPath, true);
 
   // write react css file, delete null line in the start and end
   if (hasStyle) {
     const styleContent = result.styles
       .map((style: anyObject) => style.content.replace(/^\s+|\s+$/g, ''))
       .join('\n');
-
-    output(
-      styleContent,
-      path.resolve(__dirname, path.join(targetPath, 'index.css')),
-      false
-    );
+    output(styleContent, path.resolve(dist, 'index.css'), false);
   }
 }
-
-transform('../example/cool.vue', '../example', 'hot');

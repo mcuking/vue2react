@@ -1,6 +1,6 @@
 {
   "name": "vue2react",
-  "version": "0.3.4",
+  "version": "0.4.0",
   "description": "Transform Vue component to React component",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -33,6 +33,7 @@
     "@babel/types": "^7.4.0",
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
+    "inquirer": "^6.3.1",
     "prettier-eslint": "^8.8.2",
     "vue-template-compiler": "^2.6.10"
   },
