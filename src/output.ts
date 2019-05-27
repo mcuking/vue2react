@@ -1,5 +1,4 @@
-const format = require('prettier-eslint');
-
+import format from 'prettier-eslint';
 import fs from 'fs';
 
 export default function output(
