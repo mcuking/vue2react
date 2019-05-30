@@ -14,7 +14,7 @@ export default class reactVisitor {
   genImports(path: NodePath<t.Program>, hasStyle: boolean) {
     // add 'import ./index.css'
     if (hasStyle) {
-      const importCSS = t.importDeclaration([], t.stringLiteral('index.css'));
+      const importCSS = t.importDeclaration([], t.stringLiteral('./index.css'));
       path.node.body.unshift(importCSS);
     }
 
@@ -32,10 +32,10 @@ export default class reactVisitor {
       path.node.body.unshift(importPropTypes);
     }
 
-    // add 'import react, { Component } from "react";'
+    // add 'import React, { Component } from "react";'
     const importReact = t.importDeclaration(
       [
-        t.importDefaultSpecifier(t.identifier('react')),
+        t.importDefaultSpecifier(t.identifier('React')),
         t.importSpecifier(t.identifier('Component'), t.identifier('Component'))
       ],
       t.stringLiteral('react')
