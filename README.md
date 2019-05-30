@@ -7,13 +7,13 @@ The tool will be more stronger and supports more syntax.
 ## Install
 
 ```bash
-npm i vue2react
+npm i vue2react -g
 ```
 
 or
 
 ```bash
-yarn add vue2react
+yarn add vue2react -g
 ```
 
 ## Usage
@@ -286,3 +286,7 @@ export default class CoolDemo extends Component {
   color: #999;
 }
 ```
+
+## Inspired by
+
+[vue-to-react](https://github.com/dwqs/vue-to-react)
