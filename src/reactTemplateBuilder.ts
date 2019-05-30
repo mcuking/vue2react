@@ -1,5 +1,6 @@
 import template from '@babel/template';
 import * as t from '@babel/types';
+import { formatComponentName } from './utils/tools';
 
 import { App } from './types';
 
@@ -16,7 +17,7 @@ export default function reactTemplateBuilder(app: App) {
   const buildRequire = template(componentTemplate);
 
   const node = buildRequire({
-    NAME: t.identifier(app.script.name),
+    NAME: t.identifier(formatComponentName(app.script.name)),
     STATE: t.objectExpression(app.script.data._statements)
   });
 
