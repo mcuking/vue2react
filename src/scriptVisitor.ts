@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
-import { cycle, log, formatComponentName } from './utils/tools';
+import { cycle, log } from './utils/tools';
 import { Script } from './types';
 import formatThisExpression from './formatThis';
 
@@ -25,7 +25,7 @@ export default class scriptVisitor {
 
   nameHandler(path: NodePath<t.ObjectProperty>) {
     const name = (path.node.value as t.StringLiteral).value;
-    this.script.name = formatComponentName(name);
+    this.script.name = name;
   }
 
   dataHandler(body: t.Node[], isObject: boolean) {

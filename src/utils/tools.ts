@@ -101,13 +101,11 @@ export function genDefaultProps(props: { [name: string]: any }) {
   );
 }
 
-export function formatComponentName(name = 'react-component'): string {
-  if (!name) {
-    return 'ReactComponent';
-  } else {
-    return name
-      .split('-')
-      .map(item => item[0].toUpperCase() + item.substr(1))
-      .join('');
-  }
+export function formatComponentName(name: string): string {
+  return name
+    ? name
+        .split('-')
+        .map(item => item[0].toUpperCase() + item.substr(1))
+        .join('')
+    : 'ReactComponent';
 }
