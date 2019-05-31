@@ -163,10 +163,10 @@ export default {
 #### JS 文件
 
 ```javascript
-import react, { Component } from 'react';
-import PropTypes from 'PropType';
+import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Loader from './Loader';
-import 'index.css';
+import './index.css';
 export default class CoolDemo extends Component {
   constructor(props) {
     super(props);
@@ -180,7 +180,7 @@ export default class CoolDemo extends Component {
     };
   }
 
-  static propType = {
+  static propTypes = {
     list: PropTypes.boolean,
     text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
     title: PropTypes.string,
@@ -233,7 +233,7 @@ export default class CoolDemo extends Component {
   }
 
   render() {
-    const { show, html } = this.data;
+    const { show, html } = this.state;
     const { list } = this.props;
     const { handleTitleClick } = this;
     const reverseName = this.reverseName();

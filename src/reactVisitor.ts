@@ -89,7 +89,7 @@ export default class reactVisitor {
         t.variableDeclaration('const', [
           t.variableDeclarator(
             t.objectPattern(dataProperties as any),
-            t.memberExpression(t.thisExpression(), t.identifier('data'))
+            t.memberExpression(t.thisExpression(), t.identifier('state'))
           )
         ])
       );
