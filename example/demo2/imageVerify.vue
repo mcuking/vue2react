@@ -8,6 +8,7 @@
 
 <script>
 export default {
+  name: "image-verify",
   data() {
     return {
       timer: null,
