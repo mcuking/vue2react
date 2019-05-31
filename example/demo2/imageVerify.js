@@ -53,7 +53,7 @@ export default class ImageVerify extends Component {
   }
 
   render() {
-    const { src } = this.data;
+    const { src } = this.state;
     const { handleClick } = this;
     return (
       <div className="img-verify-box" onClick={handleClick}>
