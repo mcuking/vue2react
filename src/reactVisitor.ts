@@ -2,7 +2,7 @@ import { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
 import { App } from './types';
-import { genPropType, genDefaultProps } from './utils/tools';
+import { genPropTypes, genDefaultProps } from './utils/tools';
 
 export default class reactVisitor {
   app: App;
@@ -27,7 +27,7 @@ export default class reactVisitor {
     if (Object.keys(this.app.script.props).length) {
       const importPropTypes = t.importDeclaration(
         [t.importDefaultSpecifier(t.identifier('PropTypes'))],
-        t.stringLiteral('PropType')
+        t.stringLiteral('prop-types')
       );
       path.node.body.unshift(importPropTypes);
     }
@@ -44,7 +44,7 @@ export default class reactVisitor {
   }
 
   genStaticProps(path: NodePath<t.ClassBody>) {
-    path.node.body.push(genPropType(this.app.script.props));
+    path.node.body.push(genPropTypes(this.app.script.props));
     path.node.body.push(genDefaultProps(this.app.script.props));
   }
 

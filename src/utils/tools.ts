@@ -17,7 +17,7 @@ export function log(msg: string, type = 'error') {
   return console.log(chalk.green(`[Vue-to-React]: ${msg}`));
 }
 
-export function genPropType(props: { [name: string]: any }) {
+export function genPropTypes(props: { [name: string]: any }) {
   const properties: t.ObjectProperty[] = [];
 
   for (const name in props) {
@@ -56,7 +56,7 @@ export function genPropType(props: { [name: string]: any }) {
   }
   // babel not support generate static class property now.
   return t.classProperty(
-    t.identifier('static propType'),
+    t.identifier('static propTypes'),
     t.objectExpression(properties)
   );
 }

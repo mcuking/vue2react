@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import PropTypes from 'PropType';
+import PropTypes from 'prop-types';
 import './index.css';
-export default class extends Component {
+export default class ImageVerify extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -11,7 +11,7 @@ export default class extends Component {
     };
   }
 
-  static propType = {
+  static propTypes = {
     getVerifyCode: PropTypes.function
   };
   static defaultProps = {};
