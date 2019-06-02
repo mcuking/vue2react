@@ -41,251 +41,33 @@ Options:
 
 ## Example
 
-### From(Vue Code)
+Left code is Vue, and the right one is React.
 
-```javascript
-<template>
-  <div v-if="show"
-       v-show="show"
-       v-html="html"
-       :a="list"
-       @click="handleTitleClick"
-       b="1">
-    <p v-for="item in list"
-       :key="item.key"
-       v-bind:rt="show"
-       sd="ss"
-       :swe="show"
-       tr="23"
-       :class="{'wrapper': show}"
-       class="er df">{{item.value}}</p>
-    <h1 href="">{{reverseName}}</h1>
-    <loader />
-  </div>
-</template>
+#### Demo1
 
-<script>
-import Loader from "./Loader";
-export default {
-  name: "cool-demo",
+<table>
+  <tr>
+    <td>
+      <img src="./example/demo1/demo1_src.png"/>
+    </td>
+    <td>
+      <img src="./example/demo1/demo1_dest.png"/>
+    </td>
+  </tr>
+</table>
 
-  component: {
-    Loader
-  },
+#### Demo2
 
-  props: {
-    list: Boolean,
-    text: [String, Number],
-    title: {
-      type: String,
-      default: "hello world"
-    },
-    list2: {
-      type: Array,
-      default: () => [],
-      require: true
-    },
-    list3: {
-      type: Object,
-      default: function() {
-        return { message: "hello" };
-      }
-    }
-  },
-
-  data() {
-    return {
-      html: "<div>hello, i am hack</div>",
-      show: true,
-      name: "tom",
-      item: {
-        id: "123"
-      }
-    };
-  },
-
-  created() {
-    this.name = "jerry";
-    this.name.we = 1;
-  },
-
-  mounted() {
-    console.log(this.name);
-    document.addEventListener("click", this.handlePageClick);
-  },
-
-  beforeDestroy() {
-    document.removeEventListener("click", this.handlePageClick);
-  },
-
-  methods: {
-    handlePageClick(e) {
-      const { name } = this;
-      console.log("page click", e, name);
-    },
-
-    handleTitleClick(e) {
-      const { id } = this.item;
-      console.log("title clicked", e, id);
-    }
-  },
-
-  computed: {
-    reverseName() {
-      return this.name
-        .split("")
-        .reverse()
-        .join("");
-    },
-
-    wrappedTitle() {
-      return `Title is ${this.title}`;
-    }
-  }
-};
-</script>
-
-<style>
-.title {
-  font-size: 28px;
-  color: #333;
-}
-
-.name {
-  font-size: 32px;
-  color: #999;
-}
-</style>
-```
-
-### To(React Code)
-
-#### JS 文件
-
-```javascript
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import Loader from './Loader';
-import './index.css';
-export default class CoolDemo extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      html: '<div>hello, i am hack</div>',
-      show: true,
-      name: 'tom',
-      item: {
-        id: '123'
-      }
-    };
-  }
-
-  static propTypes = {
-    list: PropTypes.boolean,
-    text: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    title: PropTypes.string,
-    list2: PropTypes.array.isRequired,
-    list3: PropTypes.object
-  };
-  static defaultProps = {
-    title: 'hello world',
-    list2: [],
-    list3: {
-      message: 'hello'
-    }
-  };
-
-  componentWillMount() {
-    this.setState({
-      name: 'jerry'
-    });
-    this.state.name.we = 1;
-  }
-
-  componentDidMount() {
-    console.log(this.state.name);
-    document.addEventListener('click', this.handlePageClick);
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handlePageClick);
-  }
-
-  handlePageClick(e) {
-    const { name } = this;
-    console.log('page click', e, name);
-  }
-
-  handleTitleClick(e) {
-    const { id } = this.state.item;
-    console.log('title clicked', e, id);
-  }
-
-  reverseName() {
-    return this.state.name
-      .split('')
-      .reverse()
-      .join('');
-  }
-
-  wrappedTitle() {
-    return `Title is ${this.props.title}`;
-  }
-
-  render() {
-    const { show, html } = this.state;
-    const { list } = this.props;
-    const { handleTitleClick } = this;
-    const reverseName = this.reverseName();
-    return (
-      <div>
-        {show && (
-          <div
-            a={list}
-            b="1"
-            onClick={handleTitleClick}
-            style={{
-              display: show ? 'block' : 'none'
-            }}
-            dangerouslySetInnerHTML={{
-              __html: html
-            }}
-          >
-            {list.map(item => (
-              <p
-                rt={show}
-                sd="ss"
-                swe={show}
-                tr="23"
-                className="er df"
-                key={item.key}
-              >
-                {item.value}
-              </p>
-            ))}
-            <h1 href="">{reverseName}</h1>
-            <loader />
-          </div>
-        )}
-      </div>
-    );
-  }
-}
-```
-
-#### CSS 文件
-
-```css
-.title {
-  font-size: 28px;
-  color: #333;
-}
-
-.name {
-  font-size: 32px;
-  color: #999;
-}
-```
+<table>
+  <tr>
+    <td>
+      <img src="./example/demo2/demo2_src.png"/>
+    </td>
+    <td>
+      <img src="./example/demo2/demo2_dest.png"/>
+    </td>
+  </tr>
+</table>
 
 ## Inspired by
 
