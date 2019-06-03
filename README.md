@@ -39,13 +39,57 @@ Options:
   -h, --help     output usage information
 ```
 
-## Example
+## Support
 
-Left code is Vue, and the right one is React.
+- Data
+  - [x] data
+  - [x] props
+  - [x] propsData
+  - [x] computed
+  - [x] methods
+  - [ ] watch
+- DOM
+  - [ ] el
+  - [x] template
+  - [ ] render
+  - [ ] renderError
+- Lifecycle Hooks
+  - [x] created
+  - [x] mounted
+  - [x] updated
+  - [x] beforeDestroy
+  - [x] errorCaptured
+- Directives
+  - [ ] v-text
+  - [x] v-html
+  - [x] v-show
+  - [x] v-if
+  - [ ] v-else
+  - [ ] v-else-if
+  - [x] v-for
+  - [x] v-on / @
+  - [x] v-bind / :
+  - [ ] v-model
+  - [ ] v-pre
+  - [ ] v-cloak
+  - [ ] v-once
+- Special Attributes
+  - [x] key
+  - [ ] ref
+
+## Example
 
 #### Demo1
 
 <table>
+  <tr>
+    <td>
+      Vue Code
+    </td>
+    <td>
+      React Code
+    </td>
+  </tr>
   <tr>
     <td>
       <img src="./example/demo1/demo1_src.png"/>
@@ -59,6 +103,14 @@ Left code is Vue, and the right one is React.
 #### Demo2
 
 <table>
+  <tr>
+    <td>
+      Vue Code
+    </td>
+    <td>
+      React Code
+    </td>
+  </tr>
   <tr>
     <td>
       <img src="./example/demo2/demo2_src.png"/>
