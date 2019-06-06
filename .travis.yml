@@ -17,7 +17,7 @@ deploy:
   provider: pages
   local-dir: dist
   skip-cleanup: true
-  github-token: $CI_TOKEN # Set in the settings page of your repository, as a secure variable
+  github-token: $TravisCI
   keep-history: true
   on:
     branch: master
