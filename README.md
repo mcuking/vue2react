@@ -4,7 +4,19 @@ A tool that transforms Vue component to React component.
 
 The tool will be more stronger and supports more syntax.
 
-## Install
+There are 2 ways to use the transform tool: web page or cli.
+
+## Web Page
+
+https://mcuking.github.io/vue2react/
+
+The screen is here.
+
+<img src="./vue2react.png"/>
+
+## CLI
+
+#### Install
 
 ```bash
 npm i vue2react -g
@@ -16,7 +28,7 @@ or
 yarn add vue2react -g
 ```
 
-## Usage
+#### Usage
 
 bash example
 
@@ -124,4 +136,5 @@ Options:
 ## Inspiration
 
 [algorithm-visualizer](https://github.com/algorithm-visualizer/algorithm-visualizer)
+
 [vue-to-react](https://github.com/dwqs/vue-to-react)
