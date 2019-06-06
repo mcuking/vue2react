@@ -21,7 +21,7 @@ export default function scriptIterator(script: string) {
         switch (name) {
           case 'data':
             // Support following syntax:
-            // data: () => { return {a: 1}}
+            // data() => { return {a: 1}}
             visitor.dataHandler(path.node.body.body, false);
             break;
           default:

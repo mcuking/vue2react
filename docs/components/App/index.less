@@ -1,0 +1,69 @@
+@import '../../common/less/index';
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: @font-family-normal;
+  -webkit-font-smoothing: subpixel-antialiased;
+  user-select: none;
+  color: @color-font;
+  font-size: @font-size-normal;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input,
+select,
+textarea,
+button {
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  background: none;
+  border: none;
+  outline: none;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  line-height: 1.15;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  height: 100%;
+  background-color: @theme-normal;
+
+  .container {
+    flex: 1;
+    background-color: @theme-dark;
+    display: flex;
+    justify-content: space-around;
+    align-items: stretch;
+    .sub-container {
+      flex: 1;
+    }
+  }
+
+  .workspace {
+    flex: 1;
+    .visualization_viewer {
+      background-color: @theme-dark;
+    }
+  }
+}

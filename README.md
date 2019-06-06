@@ -121,6 +121,7 @@ Options:
   </tr>
 </table>
 
-## Inspired by
+## Inspiration
 
+[algorithm-visualizer](https://github.com/algorithm-visualizer/algorithm-visualizer)
 [vue-to-react](https://github.com/dwqs/vue-to-react)
