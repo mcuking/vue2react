@@ -1,0 +1,32 @@
+@import '../../common/less/index';
+
+.header {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 0 16px;
+    border-bottom: 1px solid @theme-light;
+
+    .section {
+      height: @line-height;
+      display: flex;
+      align-items: stretch;
+
+      .title_bar {
+        font-size: @font-size-large;
+        font-weight: bold;
+        min-width: 0;
+      }
+      .select-file-input {
+        position: absolute;
+        width: 0;
+        opacity: 0;
+      }
+    }
+  }
+}

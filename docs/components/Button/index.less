@@ -1,0 +1,79 @@
+@import '../../common/less/index';
+
+.button {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding: 0 12px;
+  margin: 0;
+
+  .icon {
+    margin-right: 4px;
+
+    &.image {
+      width: 1.6em;
+      height: 1.6em;
+      background-position: center;
+      background-size: cover;
+      border-radius: 2px;
+    }
+  }
+
+  &.reverse {
+    flex-direction: row-reverse;
+
+    .icon {
+      margin-right: 0;
+      margin-left: 4px;
+    }
+  }
+
+  &.icon_only {
+    .icon {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+
+  &:hover {
+    background-color: @color-overlay;
+  }
+
+  &.primary {
+    &:hover {
+      background-color: @color-shadow;
+
+      &:active {
+        box-shadow: 0px 0px 10px 3px #1a1a1a inset;
+      }
+    }
+
+    &.active {
+      background-color: @color-shadow;
+      box-shadow: 0px 0px 10px 3px #1a1a1a inset;
+      font-weight: bold;
+
+      .icon {
+        color: @color-active;
+      }
+    }
+  }
+
+  &.selected {
+    background-color: @color-shadow;
+
+    &:hover {
+      color: rgba(@color-font, 0.8);
+    }
+  }
+
+  &.disabled {
+    cursor: not-allowed;
+    background-color: @color-shadow;
+    opacity: 0.6;
+  }
+
+  &.confirming {
+    color: @color-alert;
+  }
+}

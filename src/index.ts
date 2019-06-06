@@ -8,16 +8,10 @@ import scriptIterator from './scriptIterator';
 import templateIterator from './templateIterator';
 import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
-import output from './output';
 import { log } from './utils/tools';
 import { anyObject } from './types';
 
-export default function transform(
-  src: string,
-  targetPath: string,
-  dist: string
-) {
-  const sourceCode = fs.readFileSync(path.resolve(__dirname, src), 'utf8');
+export function transformCode(sourceCode: string) {
   const result = compiler.parseComponent(sourceCode, {
     pad: 'line'
   });
@@ -46,15 +40,22 @@ export default function transform(
 
   const targetAst = reactIterator(rast, app, hasStyle);
   const targetCode = generate(targetAst).code;
+  return [targetCode, styles];
+}
+
+export function transformFile(src: string, targetPath: string, dist: string) {
+  const sourceCode = fs.readFileSync(path.resolve(__dirname, src), 'utf8');
+
+  const [script, styles] = transformCode(sourceCode);
 
   // write react js file
-  output(targetCode, targetPath, true);
+  fs.writeFileSync(targetPath, script);
 
   // write react css file, delete null line in the start and end
-  if (hasStyle) {
-    const styleContent = result.styles
+  if (styles.length > 0) {
+    const styleContent = styles
       .map((style: anyObject) => style.content.replace(/^\s+|\s+$/g, ''))
       .join('\n');
-    output(styleContent, path.resolve(dist, 'index.css'), false);
+    fs.writeFileSync(path.resolve(dist, 'index.css'), styleContent);
   }
 }
