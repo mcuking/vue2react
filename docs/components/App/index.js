@@ -1,64 +1,51 @@
-import React from 'react';
-import Header from '../Header';
-import CodeEditor from '../CodeEditor';
+import React, { useState } from 'react';
+import { usePersist } from 'react-hooks-set';
 import { transformCode } from 'src/index.ts';
 import initalCode from '../../common/util/initalCode';
+import Header from '../Header';
+import CodeEditor from '../CodeEditor';
 
 import styles from './index.less';
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      sourceCode: initalCode,
-      targetCode: '',
-      error: ''
-    };
-  }
+export default function App() {
+  const [sourceCode, setSourceCode, clearSourceCode] = usePersist(
+    'sourceCode',
+    initalCode,
+    true
+  );
+  const [targetCode, setTargetCode] = useState('');
+  const [error, setError] = useState('');
 
-  handleUpdateCode = code => {
-    this.setState({
-      sourceCode: code
-    });
+  const handleUpdateCode = code => {
+    setSourceCode(code);
   };
 
-  handleTransform = () => {
+  const handleTransform = () => {
     try {
-      const script = transformCode(this.state.sourceCode)[0];
-      this.setState({
-        targetCode: script,
-        error: ''
-      });
+      const script = transformCode(sourceCode)[0];
+      setTargetCode(script);
+      setError('');
     } catch (error) {
-      console.log(error.message, 'error');
-      this.setState({
-        error: error.message
-      });
+      console.log(error);
+      setError(error.message);
     }
   };
-
-  render() {
-    const { sourceCode, targetCode, error } = this.state;
-    return (
-      <div className={styles.app}>
-        <Header
-          sourceCode={sourceCode}
-          targetCode={targetCode}
-          handleTransform={this.handleTransform}
-          handleUpdateCode={this.handleUpdateCode}
-        />
-        <div className={styles.container}>
-          <div className={styles.sub_container}>
-            <CodeEditor
-              code={sourceCode}
-              handleUpdateCode={this.handleUpdateCode}
-            />
-          </div>
-          <div className={styles.sub_container}>
-            <CodeEditor code={targetCode} error={error} readOnly={true} />
-          </div>
+  return (
+    <div className={styles.app}>
+      <Header
+        sourceCode={sourceCode}
+        targetCode={targetCode}
+        handleTransform={handleTransform}
+        handleUpdateCode={handleUpdateCode}
+      />
+      <div className={styles.container}>
+        <div className={styles.sub_container}>
+          <CodeEditor code={sourceCode} handleUpdateCode={handleUpdateCode} />
+        </div>
+        <div className={styles.sub_container}>
+          <CodeEditor code={targetCode} error={error} readOnly={true} />
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }

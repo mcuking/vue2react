@@ -71,6 +71,7 @@
     "react": "^16.8.6",
     "react-ace": "^7.0.1",
     "react-dom": "^16.8.6",
+    "react-hooks-set": "^1.1.8",
     "react-toastify": "^5.2.1",
     "screenfull": "^4.2.0",
     "style-loader": "^0.23.1",
