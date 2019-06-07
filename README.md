@@ -2,7 +2,7 @@
 
 A tool that transforms Vue component to React component.
 
-The tool will be more stronger and supports more syntax.
+Now support tranform SFC (.vue) file.
 
 There are 2 ways to use the transform tool: web page or cli.
 
@@ -10,7 +10,9 @@ There are 2 ways to use the transform tool: web page or cli.
 
 https://mcuking.github.io/vue2react/
 
-The screen is here.
+To get better perfomance, suggest access to it via Chrome.
+
+The demo screen is here.
 
 <img src="./vue2react.png"/>
 

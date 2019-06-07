@@ -9,32 +9,31 @@ export function classes(...classNames) {
     .trim();
 }
 
-export function readFileIntoMemory(input, callback) {
+export function readFileIntoMemory(input, callback, toast) {
+  const FILE_MAX_SIZE = 10 * 1024 * 1024;
+  const typeReg = /.vue$/i;
+
   if (window.FileReader) {
-    // support chrome IE10
     let file = input.files[0];
+    if (!typeReg.test(file.name)) {
+      return toast('Only support vue file now.', {
+        type: 'info'
+      });
+    }
+    if (file.size > FILE_MAX_SIZE) {
+      return toast('The max file size is 10M.', {
+        type: 'warn'
+      });
+    }
     let reader = new FileReader();
     reader.onload = function() {
       callback(this.result);
     };
     reader.readAsText(file);
-  } else if (typeof window.ActiveXObject != 'undefined') {
-    // support IE 7 8 9 10
-    let xmlDoc = new ActiveXObject('Microsoft.XMLDOM');
-    xmlDoc.async = false;
-    xmlDoc.load(input.value);
-    callback(xmlDoc.xml);
-  } else if (
-    document.implementation &&
-    document.implementation.createDocument
-  ) {
-    // support FF
-    let xmlDoc = document.implementation.createDocument('', '', null);
-    xmlDoc.async = false;
-    xmlDoc.load(input.value);
-    callback(xmlDoc.xml);
   } else {
-    console.log('read file error');
+    return toast('To get better perfomance, suggest access to it via Chrome.', {
+      type: 'info'
+    });
   }
 }
 
