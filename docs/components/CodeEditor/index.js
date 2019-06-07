@@ -5,15 +5,15 @@ import brace from 'brace';
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow_night_eighties';
 
-import './index.less';
+import styles from './index.less';
 
 export default function CodeEditor(props) {
   const { code, readOnly, handleUpdateCode } = props;
 
   return (
-    <div className="code-editor">
+    <div className={styles.code_editor}>
       <AceEditor
-        className="ace-editor"
+        className={styles.ace_editor}
         mode="javascript"
         theme="tomorrow_night_eighties"
         editorProps={{ $blockScrolling: true }}
