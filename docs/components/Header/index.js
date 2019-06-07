@@ -19,10 +19,10 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './index.less';
 
-export default function Header(props) {
+const Header = props => {
   const inputEl = useRef(null);
 
-  const { sourceCode, targetCode, handleTransform, handleUpdateCode } = props;
+  const { sourceCode, targetCode, onTransformCode, onUpdateCode } = props;
 
   const handleClickFullScreen = () => {
     if (screenfull.enabled) {
@@ -78,7 +78,7 @@ export default function Header(props) {
               className={styles.select_file_input}
               accept=".vue"
               onChange={() => {
-                readFileIntoMemory(inputEl.current, handleUpdateCode, toast);
+                readFileIntoMemory(inputEl.current, onUpdateCode, toast);
               }}
             />
             Upload Vue Code
@@ -86,7 +86,7 @@ export default function Header(props) {
           <Button
             icon={faPlay}
             primary
-            onClick={handleTransform}
+            onClick={onTransformCode}
             disabled={!sourceCode}
           >
             Compile
@@ -120,4 +120,6 @@ export default function Header(props) {
       <ToastContainer />
     </div>
   );
-}
+};
+
+export default Header;
