@@ -17,7 +17,7 @@ import {
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import './index.less';
+import styles from './index.less';
 
 export default class Header extends React.Component {
   constructor(props) {
@@ -44,18 +44,18 @@ export default class Header extends React.Component {
     } = this.props;
 
     return (
-      <div className="header">
-        <div className="row">
-          <div className="section">
+      <div className={styles.header}>
+        <div className={styles.row}>
+          <div className={styles.section}>
             <Button
-              className="title_bar"
+              className={styles.title_bar}
               primary
               href="https://github.com/mcuking/vue2react"
             >
               VUE2REACT
             </Button>
           </div>
-          <div className="section">
+          <div className={styles.section}>
             <Button
               icon={faGithub}
               primary
@@ -72,8 +72,8 @@ export default class Header extends React.Component {
             </Button>
           </div>
         </div>
-        <div className="row">
-          <div className="section">
+        <div className={styles.row}>
+          <div className={styles.section}>
             <Button
               icon={faUpload}
               primary
@@ -84,7 +84,7 @@ export default class Header extends React.Component {
               <input
                 ref={this.inputRef}
                 type="file"
-                className="select-file-input"
+                className={styles.select_file_input}
                 accept=".vue"
                 onChange={() => {
                   readFileIntoMemory(
@@ -105,7 +105,7 @@ export default class Header extends React.Component {
               Compile
             </Button>
           </div>
-          <div className="section">
+          <div className={styles.section}>
             <Button
               icon={faClipboardCheck}
               primary

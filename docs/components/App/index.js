@@ -4,7 +4,7 @@ import CodeEditor from '../CodeEditor';
 import { transformCode } from 'src/index.ts';
 import initalCode from '../../common/util/initalCode';
 
-import './index.less';
+import styles from './index.less';
 
 export default class App extends React.Component {
   constructor(props) {
@@ -23,31 +23,38 @@ export default class App extends React.Component {
   };
 
   handleTransform = () => {
-    const script = transformCode(this.state.sourceCode)[0];
-    this.setState({
-      targetCode: script,
-      error: ''
-    });
+    try {
+      const script = transformCode(this.state.sourceCode)[0];
+      this.setState({
+        targetCode: script,
+        error: ''
+      });
+    } catch (error) {
+      console.log(error.message, 'error');
+      this.setState({
+        error: error.message
+      });
+    }
   };
 
   render() {
     const { sourceCode, targetCode, error } = this.state;
     return (
-      <div className="app">
+      <div className={styles.app}>
         <Header
           sourceCode={sourceCode}
           targetCode={targetCode}
           handleTransform={this.handleTransform}
           handleUpdateCode={this.handleUpdateCode}
         />
-        <div className="container">
-          <div className="sub-container">
+        <div className={styles.container}>
+          <div className={styles.sub_container}>
             <CodeEditor
               code={sourceCode}
               handleUpdateCode={this.handleUpdateCode}
             />
           </div>
-          <div className="sub-container">
+          <div className={styles.sub_container}>
             <CodeEditor code={targetCode} error={error} readOnly={true} />
           </div>
         </div>
@@ -55,43 +62,3 @@ export default class App extends React.Component {
     );
   }
 }
-
-// export default function App() {
-//   const [sourceCode, setSourceCode, clearSourceCode] = usePersist(
-//     'sourceCode',
-//     initalCode,
-//     true
-//   );
-//   const [targetCode, setTargetCode] = useState('');
-//   const [error, setError] = useState('');
-
-//   const handleUpdateCode = code => {
-//     setSourceCode(code);
-//     setError('');
-//   };
-
-//   const handleTransform = () => {
-//     const script = transformCode(sourceCode)[0];
-//     setTargetCode(script);
-//     setTargetCode(1);
-//   };
-
-//   return (
-//     <div className="app">
-//       <Header
-//         sourceCode={sourceCode}
-//         targetCode={targetCode}
-//         handleTransform={handleTransform}
-//         handleUpdateCode={handleUpdateCode}
-//       />
-//       <div className="container">
-//         <div className="sub-container">
-//           <CodeEditor code={sourceCode} handleUpdateCode={handleUpdateCode} />
-//         </div>
-//         <div className="sub-container">
-//           <CodeEditor code={targetCode} error={error} readOnly={true} />
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }

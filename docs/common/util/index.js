@@ -1,13 +1,4 @@
-export function classes(...classNames) {
-  return classNames
-    .map(className => {
-      if (className) {
-        return className;
-      }
-    })
-    .join(' ')
-    .trim();
-}
+export const classes = (...arr) => arr.filter(v => v).join(' ');
 
 export function readFileIntoMemory(input, callback, toast) {
   const FILE_MAX_SIZE = 10 * 1024 * 1024;

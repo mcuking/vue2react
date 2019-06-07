@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { classes } from '../../common/util';
 
-import './index.less';
+import styles from './index.less';
 
 export default function Button(props) {
   let {
@@ -22,13 +22,13 @@ export default function Button(props) {
   const iconOnly = !children;
   const enhancedProps = {
     className: classes(
-      'button',
-      reverse && 'reverse',
-      selected && 'selected',
-      disabled && 'disabled',
-      primary && 'primary',
-      active && 'active',
-      iconOnly && 'icon_only',
+      styles.button,
+      reverse && styles.reverse,
+      selected && styles.selected,
+      disabled && styles.disabled,
+      primary && styles.primary,
+      active && styles.active,
+      iconOnly && styles.icon_only,
       className
     ),
     href: disabled ? null : href,
@@ -37,12 +37,17 @@ export default function Button(props) {
       icon &&
         (typeof icon === 'string' ? (
           <div
-            className="icon image"
+            className={classes(styles.icon, styles.image)}
             key="icon"
             style={{ backgroundImage: `url(${icon})` }}
           />
         ) : (
-          <FontAwesomeIcon className="icon" fixedWidth icon={icon} key="icon" />
+          <FontAwesomeIcon
+            className={styles.icon}
+            fixedWidth
+            icon={icon}
+            key="icon"
+          />
         )),
       children
     ],
