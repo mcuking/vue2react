@@ -3,11 +3,19 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
+const { NODE_ENV = 'production' } = process.env;
+const __DEV__ = NODE_ENV === 'development';
+
 module.exports = {
-  mode: 'production',
+  mode: __DEV__ ? 'development' : 'production',
 
   entry: {
     main: './docs/main.js'
+  },
+
+  output: {
+    filename: __DEV__ ? '[name].js' : '[name].[hash].js',
+    path: path.resolve(__dirname, 'dist')
   },
 
   devServer: {
@@ -36,7 +44,12 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [
+          'style-loader',
+          'css-loader?modules&localIdentName=[local]__[hash:base64:5]',
+          'postcss-loader',
+          'less-loader'
+        ],
         include: path.resolve(__dirname, 'docs')
       }
     ]
@@ -62,8 +75,28 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin()
   ],
 
-  output: {
-    filename: '[name].js',
-    path: path.resolve(__dirname, 'dist')
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      minSize: 30000,
+      maxSize: 249856,
+      minChunks: 1,
+      maxAsyncRequests: 5,
+      maxInitialRequests: 3,
+      automaticNameDelimiter: '~',
+      name: true,
+      cacheGroups: {
+        vendors: {
+          test: /[\\/]node_modules[\\/]/,
+          priority: -10,
+          filename: 'vendors.js'
+        },
+        default: {
+          priority: -20,
+          reuseExistingChunk: true,
+          filename: 'common.js'
+        }
+      }
+    }
   }
 };
