@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import screenfull from 'screenfull';
 import {
   faClipboardCheck,
@@ -19,13 +19,12 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import styles from './index.less';
 
-export default class Header extends React.Component {
-  constructor(props) {
-    super(props);
-    this.inputRef = React.createRef();
-  }
+export default function Header(props) {
+  const inputEl = useRef(null);
 
-  handleClickFullScreen = () => {
+  const { sourceCode, targetCode, handleTransform, handleUpdateCode } = props;
+
+  const handleClickFullScreen = () => {
     if (screenfull.enabled) {
       if (screenfull.isFullscreen) {
         screenfull.exit();
@@ -35,103 +34,90 @@ export default class Header extends React.Component {
     }
   };
 
-  render() {
-    const {
-      sourceCode,
-      targetCode,
-      handleTransform,
-      handleUpdateCode
-    } = this.props;
-
-    return (
-      <div className={styles.header}>
-        <div className={styles.row}>
-          <div className={styles.section}>
-            <Button
-              className={styles.title_bar}
-              primary
-              href="https://github.com/mcuking/vue2react"
-            >
-              VUE2REACT
-            </Button>
-          </div>
-          <div className={styles.section}>
-            <Button
-              icon={faGithub}
-              primary
-              href="https://github.com/mcuking/vue2react"
-            >
-              Fork me on Github
-            </Button>
-            <Button
-              icon={faExpandArrowsAlt}
-              primary
-              onClick={this.handleClickFullScreen}
-            >
-              Full Screen
-            </Button>
-          </div>
+  return (
+    <div className={styles.header}>
+      <div className={styles.row}>
+        <div className={styles.section}>
+          <Button
+            className={styles.title_bar}
+            primary
+            href="https://github.com/mcuking/vue2react"
+          >
+            VUE2REACT
+          </Button>
         </div>
-        <div className={styles.row}>
-          <div className={styles.section}>
-            <Button
-              icon={faUpload}
-              primary
-              onClick={() => {
-                this.inputRef.current.click();
-              }}
-            >
-              <input
-                ref={this.inputRef}
-                type="file"
-                className={styles.select_file_input}
-                accept=".vue"
-                onChange={() => {
-                  readFileIntoMemory(
-                    this.inputRef.current,
-                    handleUpdateCode,
-                    toast
-                  );
-                }}
-              />
-              Upload Vue Code
-            </Button>
-            <Button
-              icon={faPlay}
-              primary
-              onClick={handleTransform}
-              disabled={!sourceCode}
-            >
-              Compile
-            </Button>
-          </div>
-          <div className={styles.section}>
-            <Button
-              icon={faClipboardCheck}
-              primary
-              onClick={() => {
-                copyDataToClipBoard(targetCode, result => {
-                  result && toast('Copied!', { type: 'success' });
-                });
-              }}
-              disabled={!targetCode}
-            >
-              Copy React Code
-            </Button>
-            <Button
-              icon={faDownload}
-              primary
-              onClick={() => {
-                transformDataToDownloadFile(targetCode);
-              }}
-              disabled={!targetCode}
-            >
-              Download React Code
-            </Button>
-          </div>
+        <div className={styles.section}>
+          <Button
+            icon={faGithub}
+            primary
+            href="https://github.com/mcuking/vue2react"
+          >
+            Fork me on Github
+          </Button>
+          <Button
+            icon={faExpandArrowsAlt}
+            primary
+            onClick={handleClickFullScreen}
+          >
+            Full Screen
+          </Button>
         </div>
-        <ToastContainer />
       </div>
-    );
-  }
+      <div className={styles.row}>
+        <div className={styles.section}>
+          <Button
+            icon={faUpload}
+            primary
+            onClick={() => {
+              inputEl.current.click();
+            }}
+          >
+            <input
+              ref={inputEl}
+              type="file"
+              className={styles.select_file_input}
+              accept=".vue"
+              onChange={() => {
+                readFileIntoMemory(inputEl.current, handleUpdateCode, toast);
+              }}
+            />
+            Upload Vue Code
+          </Button>
+          <Button
+            icon={faPlay}
+            primary
+            onClick={handleTransform}
+            disabled={!sourceCode}
+          >
+            Compile
+          </Button>
+        </div>
+        <div className={styles.section}>
+          <Button
+            icon={faClipboardCheck}
+            primary
+            onClick={() => {
+              copyDataToClipBoard(targetCode, result => {
+                result && toast('Copied!', { type: 'success' });
+              });
+            }}
+            disabled={!targetCode}
+          >
+            Copy React Code
+          </Button>
+          <Button
+            icon={faDownload}
+            primary
+            onClick={() => {
+              transformDataToDownloadFile(targetCode);
+            }}
+            disabled={!targetCode}
+          >
+            Download React Code
+          </Button>
+        </div>
+      </div>
+      <ToastContainer />
+    </div>
+  );
 }

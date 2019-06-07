@@ -6,6 +6,20 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const { NODE_ENV = 'production' } = process.env;
 const __DEV__ = NODE_ENV === 'development';
 
+const plugins = __DEV__
+  ? [
+      new HtmlWebpackPlugin({
+        template: './docs/index.html'
+      }),
+      new webpack.HotModuleReplacementPlugin()
+    ]
+  : [
+      new HtmlWebpackPlugin({
+        template: './docs/index.html'
+      }),
+      new CleanWebpackPlugin()
+    ];
+
 module.exports = {
   mode: __DEV__ ? 'development' : 'production',
 
@@ -22,6 +36,7 @@ module.exports = {
     contentBase: './dist',
     open: true,
     port: 2323,
+    inline: true,
     hot: true,
     hotOnly: true
   },
@@ -67,13 +82,7 @@ module.exports = {
     fs: 'empty'
   },
 
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './docs/index.html'
-    }),
-    new CleanWebpackPlugin(),
-    new webpack.HotModuleReplacementPlugin()
-  ],
+  plugins,
 
   optimization: {
     splitChunks: {
