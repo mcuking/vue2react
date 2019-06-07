@@ -52,7 +52,7 @@ export default class Header extends React.Component {
               primary
               href="https://github.com/mcuking/vue2react"
             >
-              vue2react
+              VUE2REACT
             </Button>
           </div>
           <div className="section">
@@ -85,8 +85,13 @@ export default class Header extends React.Component {
                 ref={this.inputRef}
                 type="file"
                 className="select-file-input"
+                accept=".vue"
                 onChange={() => {
-                  readFileIntoMemory(this.inputRef.current, handleUpdateCode);
+                  readFileIntoMemory(
+                    this.inputRef.current,
+                    handleUpdateCode,
+                    toast
+                  );
                 }}
               />
               Upload Vue Code
@@ -106,7 +111,7 @@ export default class Header extends React.Component {
               primary
               onClick={() => {
                 copyDataToClipBoard(targetCode, result => {
-                  result && toast('Copied!');
+                  result && toast('Copied!', { type: 'success' });
                 });
               }}
               disabled={!targetCode}
