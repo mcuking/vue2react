@@ -4,7 +4,7 @@ import { classes } from '../../common/util';
 
 import styles from './index.less';
 
-export default function Button(props) {
+const Button = props => {
   let {
     className,
     children,
@@ -59,4 +59,6 @@ export default function Button(props) {
   ) : (
     <div {...enhancedProps} />
   );
-}
+};
+
+export default Button;

@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { usePersist } from 'react-hooks-set';
 import { transformCode } from 'src/index.ts';
 import initalCode from '../../common/util/initalCode';
+import ResizableContainer from '../ResizableContainer';
 import Header from '../Header';
 import CodeEditor from '../CodeEditor';
 
 import styles from './index.less';
 
-export default function App() {
+const App = () => {
   const [sourceCode, setSourceCode, clearSourceCode] = usePersist(
     'sourceCode',
     initalCode,
@@ -15,12 +16,15 @@ export default function App() {
   );
   const [targetCode, setTargetCode] = useState('');
   const [error, setError] = useState('');
+  const [workspaceWeights, setWorkspaceWeights] = useState([1, 1]);
+  const [workspaceVisibles, setWorkspaceVisibles] = useState([true, true]);
+  const aceEditorRef = useRef(null);
 
   const handleUpdateCode = code => {
     setSourceCode(code);
   };
 
-  const handleTransform = () => {
+  const handleTransformCode = () => {
     try {
       const script = transformCode(sourceCode)[0];
       setTargetCode(script);
@@ -30,22 +34,41 @@ export default function App() {
       setError(error.message);
     }
   };
+
+  const handleChangeWorkspaceWeights = workspaceWeights => {
+    setWorkspaceWeights(workspaceWeights);
+    aceEditorRef.current.editor.resize();
+  };
+
   return (
     <div className={styles.app}>
       <Header
         sourceCode={sourceCode}
         targetCode={targetCode}
-        handleTransform={handleTransform}
-        handleUpdateCode={handleUpdateCode}
+        onTransformCode={handleTransformCode}
+        onUpdateCode={handleUpdateCode}
       />
-      <div className={styles.container}>
-        <div className={styles.sub_container}>
-          <CodeEditor code={sourceCode} handleUpdateCode={handleUpdateCode} />
-        </div>
-        <div className={styles.sub_container}>
-          <CodeEditor code={targetCode} error={error} readOnly={true} />
-        </div>
-      </div>
+      <ResizableContainer
+        className={styles.workspace}
+        horizontal
+        weights={workspaceWeights}
+        visibles={workspaceVisibles}
+        onChangeWeights={handleChangeWorkspaceWeights}
+      >
+        <CodeEditor
+          ref={aceEditorRef}
+          code={sourceCode}
+          onUpdateCode={handleUpdateCode}
+        />
+        <CodeEditor
+          ref={aceEditorRef}
+          code={targetCode}
+          error={error}
+          readOnly={true}
+        />
+      </ResizableContainer>
     </div>
   );
-}
+};
+
+export default App;

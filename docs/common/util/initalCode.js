@@ -1,5 +1,4 @@
-const initalCode = `
-<template>
+const initalCode = `<template>
   <div class="img-verify-box"
        @click="handleClick">
     <img class="verify-img"
@@ -53,7 +52,6 @@ export default {
     this.init();
   }
 };
-</script>
-`;
+</script>`;
 
 export default initalCode;
