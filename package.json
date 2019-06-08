@@ -8,7 +8,7 @@
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build-docs": "cross-env NODE_ENV=production webpack",
     "build": "rm -rf ./lib && tsc --target es2015 --declaration",
-    "lint": "tslint  --project tsconfig.json 'src/**/*.ts'"
+    "lint": "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'"
   },
   "husky": {
     "hooks": {
@@ -17,7 +17,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint  --project tsconfig.json 'src/**/*.ts'",
+      "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'",
       "git add ."
     ]
   },

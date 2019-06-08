@@ -1,26 +1,28 @@
-import React, { useState, useRef } from 'react';
+import * as React from 'react';
 import { usePersist } from 'react-hooks-set';
-import { transformCode } from 'src/index.ts';
+import { transformCode } from '../../../src/index';
 import initalCode from '../../common/util/initalCode';
 import ResizableContainer from '../ResizableContainer';
 import Header from '../Header';
 import CodeEditor from '../CodeEditor';
 
-import styles from './index.less';
+import * as styles from './index.less';
 
-const App = () => {
+const App: React.FC = () => {
   const [sourceCode, setSourceCode, clearSourceCode] = usePersist(
     'sourceCode',
     initalCode,
     true
   );
-  const [targetCode, setTargetCode] = useState('');
-  const [error, setError] = useState('');
-  const [workspaceWeights, setWorkspaceWeights] = useState([1, 1]);
-  const [workspaceVisibles, setWorkspaceVisibles] = useState([true, true]);
-  const aceEditorRef = useRef(null);
+  const [targetCode, setTargetCode] = React.useState('');
+  const [error, setError] = React.useState('');
+  const [workspaceWeights, setWorkspaceWeights] = React.useState([1, 1]);
+  const [workspaceVisibles, setWorkspaceVisibles] = React.useState([
+    true,
+    true
+  ]);
 
-  const handleUpdateCode = code => {
+  const handleUpdateCode = (code: string): void => {
     setSourceCode(code);
   };
 
@@ -35,9 +37,8 @@ const App = () => {
     }
   };
 
-  const handleChangeWorkspaceWeights = workspaceWeights => {
+  const handleChangeWorkspaceWeights = (workspaceWeights: number[]): void => {
     setWorkspaceWeights(workspaceWeights);
-    aceEditorRef.current.editor.resize();
   };
 
   return (
@@ -55,17 +56,8 @@ const App = () => {
         visibles={workspaceVisibles}
         onChangeWeights={handleChangeWorkspaceWeights}
       >
-        <CodeEditor
-          ref={aceEditorRef}
-          code={sourceCode}
-          onUpdateCode={handleUpdateCode}
-        />
-        <CodeEditor
-          ref={aceEditorRef}
-          code={targetCode}
-          error={error}
-          readOnly={true}
-        />
+        <CodeEditor code={sourceCode} onUpdateCode={handleUpdateCode} />
+        <CodeEditor code={targetCode} error={error} readOnly={true} />
       </ResizableContainer>
     </div>
   );

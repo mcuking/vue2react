@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import * as React from 'react';
 import screenfull from 'screenfull';
 import {
   faClipboardCheck,
@@ -13,23 +13,31 @@ import {
   readFileIntoMemory,
   transformDataToDownloadFile,
   copyDataToClipBoard
-} from '../../common/util';
+} from '../../common/util/tools';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import styles from './index.less';
+import * as styles from './index.less';
 
-const Header = props => {
-  const inputEl = useRef(null);
+interface IProps {
+  sourceCode: string;
+  targetCode: string;
+  className?: React.CSSProperties;
+  onTransformCode: () => void;
+  onUpdateCode: (value: string) => void;
+}
+
+const Header: React.FC<IProps> = props => {
+  const inputEl = React.useRef<HTMLInputElement>(null);
 
   const { sourceCode, targetCode, onTransformCode, onUpdateCode } = props;
 
-  const handleClickFullScreen = () => {
-    if (screenfull.enabled) {
+  const handleClickFullScreen = (): void => {
+    if (screenfull && screenfull.enabled) {
       if (screenfull.isFullscreen) {
-        screenfull.exit();
+        screenfull.exit().catch(err => console.log(err));
       } else {
-        screenfull.request();
+        screenfull.request().catch(err => console.log(err));
       }
     }
   };
@@ -69,7 +77,9 @@ const Header = props => {
             icon={faUpload}
             primary
             onClick={() => {
-              inputEl.current.click();
+              if (inputEl.current) {
+                inputEl.current.click();
+              }
             }}
           >
             <input
@@ -78,7 +88,7 @@ const Header = props => {
               className={styles.select_file_input}
               accept=".vue"
               onChange={() => {
-                readFileIntoMemory(inputEl.current, onUpdateCode, toast);
+                readFileIntoMemory(inputEl, onUpdateCode, toast);
               }}
             />
             Upload Vue Code

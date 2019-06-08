@@ -1,11 +1,17 @@
-export const classes = (...arr) => arr.filter(v => v).join(' ');
+import * as React from 'react';
 
-export function readFileIntoMemory(input, callback, toast) {
+export const classes = (...arr: any[]) => arr.filter(v => v).join(' ');
+
+export function readFileIntoMemory(
+  inputRef: React.MutableRefObject<any>,
+  callback: (val: string) => void,
+  toast: any
+) {
   const FILE_MAX_SIZE = 10 * 1024 * 1024;
   const typeReg = /.vue$/i;
 
-  if (window.FileReader) {
-    let file = input.files[0];
+  if ((window as any).FileReader) {
+    let file = inputRef.current.files[0];
     if (!typeReg.test(file.name)) {
       return toast('Only support vue file now.', {
         type: 'info'
@@ -18,7 +24,9 @@ export function readFileIntoMemory(input, callback, toast) {
     }
     let reader = new FileReader();
     reader.onload = function() {
-      callback(this.result);
+      if (typeof this.result === 'string') {
+        callback(this.result);
+      }
     };
     reader.readAsText(file);
   } else {
@@ -28,7 +36,7 @@ export function readFileIntoMemory(input, callback, toast) {
   }
 }
 
-export function transformDataToDownloadFile(data) {
+export function transformDataToDownloadFile(data: string) {
   const tag = document.createElement('a');
 
   tag.setAttribute(
@@ -42,7 +50,10 @@ export function transformDataToDownloadFile(data) {
   document.body.removeChild(tag);
 }
 
-export function copyDataToClipBoard(data, callback) {
+export function copyDataToClipBoard(
+  data: string,
+  callback: (result: boolean) => void
+) {
   const input = document.createElement('input');
   document.body.appendChild(input);
   input.setAttribute('value', data);

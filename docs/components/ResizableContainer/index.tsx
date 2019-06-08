@@ -1,9 +1,18 @@
-import React from 'react';
-import { classes } from '../../common/util';
+import * as React from 'react';
+import { classes } from '../../common/util/tools';
 import Divider from '../Divider';
-import styles from './index.less';
+import * as styles from './index.less';
 
-const ResizableContainer = props => {
+interface IProps {
+  horizontal: boolean;
+  visibles: boolean[];
+  weights: number[];
+  className?: React.CSSProperties;
+  onChangeWeights?: (value: number[]) => void;
+  children: React.ReactNodeArray;
+}
+
+const ResizableContainer: React.FC<IProps> = props => {
   const {
     horizontal,
     visibles,
@@ -13,10 +22,19 @@ const ResizableContainer = props => {
     onChangeWeights
   } = props;
 
-  const handleResize = (prevIndex, index, targetElement, clientX, clientY) => {
+  const handleResize = (
+    prevIndex: number,
+    index: number,
+    targetElement: HTMLDivElement,
+    clientX: number,
+    clientY: number
+  ): void => {
     const weights = [...props.weights];
     const { left, top } = targetElement.getBoundingClientRect();
-    const { offsetWidth, offsetHeight } = targetElement.parentElement;
+    const {
+      offsetWidth,
+      offsetHeight
+    } = targetElement.parentElement as HTMLDivElement;
     const position = horizontal ? clientX - left : clientY - top;
     const containerSize = horizontal ? offsetWidth : offsetHeight;
 
@@ -33,15 +51,17 @@ const ResizableContainer = props => {
     deltaWeight = Math.min(deltaWeight, weights[index]);
     weights[prevIndex] += deltaWeight;
     weights[index] -= deltaWeight;
-    onChangeWeights(weights);
+    if (onChangeWeights) {
+      onChangeWeights(weights);
+    }
   };
 
-  const elements = [];
+  const elements: React.ReactNodeArray = [];
   let lastIndex = -1;
   const totalWeight = weights
     .filter((weight, i) => !visibles || visibles[i])
     .reduce((sumWeight, weight) => sumWeight + weight, 0);
-  children.forEach((child, i) => {
+  children.forEach((child: React.ReactNode, i: number) => {
     if (!visibles || visibles[i]) {
       if (~lastIndex) {
         const prevIndex = lastIndex;

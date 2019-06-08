@@ -44,8 +44,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.ts$/,
-        use: 'ts-loader',
+        test: /\.ts(x?)$/,
+        use: ['babel-loader', 'ts-loader'],
         exclude: /(node_modules)/
       },
       {
@@ -75,7 +75,7 @@ module.exports = {
       src: path.resolve(__dirname, './src')
     },
     modules: ['node_modules'],
-    extensions: ['.ts', '.js']
+    extensions: ['.js', '.tsx', '.ts']
   },
 
   node: {
