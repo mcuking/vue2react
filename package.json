@@ -10,6 +10,17 @@
     "build": "rm -rf ./lib && tsc --target es2015 --declaration",
     "lint": "tslint  --project tsconfig.json 'src/**/*.ts'"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tslint  --project tsconfig.json 'src/**/*.ts'",
+      "git add ."
+    ]
+  },
   "bin": {
     "vtr": "./bin/vtr"
   },
@@ -66,8 +77,10 @@
     "cross-env": "^5.2.0",
     "css-loader": "^2.1.1",
     "html-webpack-plugin": "^3.2.0",
+    "husky": "^2.4.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
+    "lint-staged": "^8.2.0",
     "postcss-flexboxfixer": "0.0.5",
     "postcss-loader": "^3.0.0",
     "react": "^16.8.6",
