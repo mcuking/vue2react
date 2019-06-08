@@ -46,8 +46,7 @@ const replaceThisExpression = {
       } else {
         // Support following syntax:
         // const name = this.name -> cosnt name = this.props.name / const name = this.state.name
-        const key = ((subpath.parent as t.MemberExpression)
-          .property as t.Identifier).name;
+        const key = (subpath.parent.property as t.Identifier).name;
         const identify = getThisIdentify(this.script, key);
         if (identify) {
           subpath.replaceWith(t.memberExpression(t.thisExpression(), identify));

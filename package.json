@@ -7,7 +7,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build-docs": "cross-env NODE_ENV=production webpack",
-    "build": "rm -rf ./lib && tsc --target es2015 --declaration"
+    "build": "rm -rf ./lib && tsc --target es2015 --declaration",
+    "lint": "tslint  --project tsconfig.json 'src/**/*.ts'"
   },
   "bin": {
     "vtr": "./bin/vtr"
@@ -41,6 +42,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "inquirer": "^6.3.1",
+    "prettier-eslint": "^8.8.2",
     "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
@@ -76,6 +78,9 @@
     "screenfull": "^4.2.0",
     "style-loader": "^0.23.1",
     "ts-loader": "^6.0.2",
+    "tslint": "^5.17.0",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-config-standard": "^8.0.1",
     "typescript": "^3.4.5",
     "webpack": "^4.33.0",
     "webpack-cli": "^3.3.2",

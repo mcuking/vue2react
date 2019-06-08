@@ -2,7 +2,7 @@ import { parse } from '@babel/parser';
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import scriptVisitor from './scriptVisitor';
+import ScriptVisitor from './scriptVisitor';
 
 export default function scriptIterator(script: string) {
   // AST for script in Vue
@@ -10,7 +10,7 @@ export default function scriptIterator(script: string) {
     sourceType: 'module'
   });
 
-  const visitor = new scriptVisitor();
+  const visitor = new ScriptVisitor();
 
   // collect props and data key firstly
   traverse(vast, {
@@ -56,11 +56,12 @@ export default function scriptIterator(script: string) {
             } else if (t.isFunctionExpression(node)) {
               // Support following syntax:
               // data: function () => { return {a: 1}}
-              visitor.dataHandler((node.body as t.BlockStatement).body, false);
+              visitor.dataHandler(node.body.body, false);
             }
             break;
           case 'props':
             visitor.propsHandler(path);
+            break;
           default:
             break;
         }
