@@ -4,7 +4,7 @@ import * as t from '@babel/types';
 import { App } from './types';
 import { genPropTypes, genDefaultProps } from './utils/tools';
 
-export default class reactVisitor {
+export default class ReactVisitor {
   app: App;
 
   constructor(app: any) {

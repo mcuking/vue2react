@@ -1,7 +1,7 @@
 import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import reactVisitor from './reactVisitor';
+import ReactVisitor from './reactVisitor';
 import { App } from './types';
 
 export default function reactIterator(
@@ -9,7 +9,7 @@ export default function reactIterator(
   app: App,
   hasStyle: boolean
 ) {
-  const visitor = new reactVisitor(app);
+  const visitor = new ReactVisitor(app);
 
   traverse(rast, {
     Program(path: NodePath<t.Program>) {

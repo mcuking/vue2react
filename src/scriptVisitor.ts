@@ -5,7 +5,7 @@ import { cycle, log } from './utils/tools';
 import { Script } from './types';
 import formatThisExpression from './formatThis';
 
-export default class scriptVisitor {
+export default class ScriptVisitor {
   script: Script;
 
   constructor() {
@@ -141,8 +141,8 @@ export default class scriptVisitor {
                   if (t.isIdentifier(node.value)) {
                     // Support following syntax:
                     // title: {type: String}
-                    this.prop.type = (node.value as t.Identifier).name.toLowerCase();
-                    this.prop.typeValue = (node.value as t.Identifier).name.toLowerCase();
+                    this.prop.type = node.value.name.toLowerCase();
+                    this.prop.typeValue = node.value.name.toLowerCase();
                   } else if (t.isArrayExpression(node.value)) {
                     // Support following syntax:
                     // title: {type: [String, Number]}

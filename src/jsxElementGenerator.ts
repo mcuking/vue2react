@@ -203,7 +203,7 @@ export default function jsxElementGenerator(
       [wrappedElement]
     );
   } else {
-    ast = wrappedElement as t.JSXElement;
+    ast = wrappedElement;
   }
 
   return {
