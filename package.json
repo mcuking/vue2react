@@ -1,13 +1,13 @@
 {
   "name": "vue2react",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "Transform Vue component to React component",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
     "build-docs": "cross-env NODE_ENV=production webpack",
-    "build": "rm -rf lib && tsc --target es2015 --declaration && cp -r ./output/src/. ./lib && rm -rf output",
+    "build-lib": "rm -rf lib && tsc --target es2015 --declaration && cp -r ./output/src/. ./lib && rm -rf output",
     "deploy": "npm run build && npm publish",
     "lint": "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'"
   },
@@ -18,8 +18,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'",
-      "git add ."
+      "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'"
     ]
   },
   "bin": {
@@ -54,7 +53,7 @@
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
     "inquirer": "^6.3.1",
-    "prettier-eslint": "^8.8.2",
+    "prettier": "^1.18.2",
     "vue-template-compiler": "^2.6.10"
   },
   "devDependencies": {
