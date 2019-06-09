@@ -8,6 +8,7 @@ import scriptIterator from './scriptIterator';
 import templateIterator from './templateIterator';
 import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
+import formatCode from './utils/formatCode';
 import { log } from './utils/tools';
 import { anyObject } from './types';
 
@@ -40,7 +41,7 @@ export function transformCode(sourceCode: string) {
 
   const targetAst = reactIterator(rast, app, hasStyle);
   const targetCode = generate(targetAst).code;
-  return [targetCode, styles];
+  return [formatCode(targetCode), styles];
 }
 
 export function transformFile(src: string, targetPath: string, dist: string) {
