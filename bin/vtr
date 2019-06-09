@@ -66,8 +66,7 @@ if (fs.existsSync(targetPath)) {
     .prompt([
       {
         type: 'confirm',
-        message:
-          'The file: ${name} already exists in the output directory. Continue?',
+        message: `The file: ${name} already exists in the output directory. Continue?`,
         name: 'ok'
       }
     ])
