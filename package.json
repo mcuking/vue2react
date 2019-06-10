@@ -1,14 +1,14 @@
 {
   "name": "vue2react",
-  "version": "0.6.3",
+  "version": "0.6.4",
   "description": "Transform Vue component to React component",
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "start": "cross-env NODE_ENV=development webpack-dev-server",
-    "build-docs": "cross-env NODE_ENV=production webpack",
+    "build-docs": "cross-env NODE_ENV=production webpack && rm -rf output",
     "build-lib": "rm -rf lib && tsc --target es2015 --declaration && cp -r ./output/src/. ./lib && rm -rf output",
-    "deploy": "npm run build && npm publish",
+    "deploy": "npm run build-lib && npm publish",
     "lint": "tslint  --project tsconfig.json 'src/**/*.ts' 'docs/**/*.ts' 'docs/**/*.tsx'"
   },
   "husky": {
