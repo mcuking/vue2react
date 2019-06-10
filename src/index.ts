@@ -13,7 +13,7 @@ import { log } from './utils/tools';
 import { anyObject } from './types';
 
 export function transformCode(sourceCode: string) {
-  const result = compiler.parseComponent(sourceCode, {
+  const result = compiler.parseComponent(formatCode(sourceCode, 'vue'), {
     pad: 'line'
   });
 
@@ -41,7 +41,7 @@ export function transformCode(sourceCode: string) {
 
   const targetAst = reactIterator(rast, app, hasStyle);
   const targetCode = generate(targetAst).code;
-  return [formatCode(targetCode), styles];
+  return [formatCode(targetCode, 'react'), styles];
 }
 
 export function transformFile(src: string, targetPath: string, dist: string) {
