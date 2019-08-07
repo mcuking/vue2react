@@ -1,6 +1,5 @@
 import * as React from 'react';
 import AceEditor from 'react-ace';
-import brace from 'brace';
 
 import 'brace/mode/javascript';
 import 'brace/theme/tomorrow_night_eighties';
@@ -10,7 +9,6 @@ import * as styles from './index.less';
 interface IProps {
   code: string;
   readOnly?: boolean;
-  error?: string;
   className?: React.CSSProperties;
   onUpdateCode?: (value: string) => void;
 }

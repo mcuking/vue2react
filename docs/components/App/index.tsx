@@ -5,6 +5,7 @@ import initalCode from '../../common/util/initalCode';
 import ResizableContainer from '../ResizableContainer';
 import Header from '../Header';
 import CodeEditor from '../CodeEditor';
+import Console from '../Console';
 
 import * as styles from './index.less';
 
@@ -15,9 +16,11 @@ const App: React.FC = () => {
     true
   );
   const [targetCode, setTargetCode] = React.useState('');
-  const [error, setError] = React.useState('');
-  const [workspaceWeights, setWorkspaceWeights] = React.useState([1, 1]);
+  const [logging, setLogging] = React.useState([]);
+
+  const [workspaceWeights, setWorkspaceWeights] = React.useState([2, 2, 1.2]);
   const [workspaceVisibles, setWorkspaceVisibles] = React.useState([
+    true,
     true,
     true
   ]);
@@ -28,17 +31,16 @@ const App: React.FC = () => {
 
   const handleTransformCode = () => {
     try {
-      const script = transformCode(sourceCode)[0];
+      const [script, , logHistory] = transformCode(sourceCode);
       setTargetCode(script);
-      setError('');
+      setLogging(logHistory);
+      console.log(logHistory, 'logHistory');
     } catch (error) {
-      console.log(error);
-      setError(error.message);
+      console.log(typeof error, 'error1');
+      const a = [{ msg: error.toString(), type: 'error' }] as any;
+      setLogging(a);
+      setTargetCode('');
     }
-  };
-
-  const handleChangeWorkspaceWeights = (workspaceWeights: number[]): void => {
-    setWorkspaceWeights(workspaceWeights);
   };
 
   return (
@@ -54,10 +56,13 @@ const App: React.FC = () => {
         horizontal
         weights={workspaceWeights}
         visibles={workspaceVisibles}
-        onChangeWeights={handleChangeWorkspaceWeights}
+        onChangeWeights={(workspaceWeights: number[]): void =>
+          setWorkspaceWeights(workspaceWeights)
+        }
       >
         <CodeEditor code={sourceCode} onUpdateCode={handleUpdateCode} />
-        <CodeEditor code={targetCode} error={error} readOnly={true} />
+        <CodeEditor code={targetCode} readOnly={true} />
+        <Console logging={logging} title="Console" />
       </ResizableContainer>
     </div>
   );
