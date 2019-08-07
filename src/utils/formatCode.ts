@@ -1,8 +1,13 @@
 const prettier = require('prettier/standalone');
-const prettierBabylon = require('prettier/parser-babylon');
 const prettierHtml = require('prettier/parser-html');
+const prettierBabylon = require('prettier/parser-babylon');
 
 import { anyObject } from '../types';
+
+const matchAndReplace = (str: string) =>
+  str.replace(RegExp('(<input.*?)(></input>)', 'g'), '$1/>');
+
+const toGB2312 = (str: string) => unescape(str.replace(/\\u/gi, '%u'));
 
 export default function formatCode(code: string, type: string) {
   const options: anyObject = {
@@ -30,6 +35,10 @@ export default function formatCode(code: string, type: string) {
       useTabs: false
     }
   };
+
+  if (type === 'react') {
+    code = matchAndReplace(toGB2312(code));
+  }
 
   return prettier.format(code, options[type]);
 }
