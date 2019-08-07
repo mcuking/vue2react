@@ -6,6 +6,7 @@ import ResizableContainer from '../ResizableContainer';
 import Header from '../Header';
 import CodeEditor from '../CodeEditor';
 import Console from '../Console';
+import { Log } from '../../common/util/types';
 
 import * as styles from './index.less';
 
@@ -16,7 +17,7 @@ const App: React.FC = () => {
     true
   );
   const [targetCode, setTargetCode] = React.useState('');
-  const [logging, setLogging] = React.useState([]);
+  const [logging, setLogging] = React.useState([] as Log[]);
 
   const [workspaceWeights, setWorkspaceWeights] = React.useState([2, 2, 1.2]);
   const [workspaceVisibles, setWorkspaceVisibles] = React.useState([
@@ -34,12 +35,14 @@ const App: React.FC = () => {
       const [script, , logHistory] = transformCode(sourceCode);
       setTargetCode(script);
       setLogging(logHistory);
-      console.log(logHistory, 'logHistory');
+      logHistory.forEach((log: Log) => {
+        window.$sentry && window.$sentry.report(log);
+      });
     } catch (error) {
-      console.log(typeof error, 'error1');
-      const a = [{ msg: error.toString(), type: 'error' }] as any;
-      setLogging(a);
       setTargetCode('');
+      setLogging([{ msg: error.toString(), type: 'error' }]);
+      window.$sentry &&
+        window.$sentry.report({ msg: error.toString(), type: 'error' });
     }
   };
 
