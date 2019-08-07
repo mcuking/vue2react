@@ -5,7 +5,6 @@ const eventMap: anyObject = {
   dblclick: 'onDoubleClick',
   abort: 'onAbort',
   change: 'onChange',
-  input: 'onInput',
   error: 'onError',
   focus: 'onFocus',
   blur: 'onBlur',
