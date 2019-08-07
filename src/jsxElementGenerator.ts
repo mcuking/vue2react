@@ -2,7 +2,7 @@ import * as t from '@babel/types';
 
 import eventMap from './utils/eventMap';
 import logger from './utils/logUtil';
-import { anyObject, Template } from './types';
+import { anyObject, Template } from './utils/types';
 
 export default function jsxElementGenerator(
   vnode: anyObject,

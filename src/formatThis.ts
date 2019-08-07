@@ -1,7 +1,7 @@
 import { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import { Script } from './types';
+import { Script } from './utils/types';
 
 /*
   Support following syntax:

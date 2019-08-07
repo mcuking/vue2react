@@ -10,7 +10,7 @@ import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
 import formatCode from './utils/formatCode';
 import logger from './utils/logUtil';
-import { anyObject } from './types';
+import { anyObject } from './utils/types';
 
 export function transformCode(sourceCode: string) {
   try {

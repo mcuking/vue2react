@@ -2,7 +2,7 @@ import traverse, { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
 import ReactVisitor from './reactVisitor';
-import { App } from './types';
+import { App } from './utils/types';
 
 export default function reactIterator(
   rast: t.Node,

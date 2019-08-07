@@ -2,7 +2,7 @@ const compiler = require('vue-template-compiler');
 
 import jsxElementGenerator from './jsxElementGenerator';
 import logger from './utils/logUtil';
-import { Template } from './types';
+import { Template } from './utils/types';
 
 export default function templateIterator(template: string): Template {
   const { ast, errors, tips } = compiler.compile(template, {
@@ -17,7 +17,7 @@ export default function templateIterator(template: string): Template {
 
   if (tips.length > 0) {
     tips.forEach((tip: string) => {
-      logger.log(`${tip} ---vue-template-compiler: compile`, 'tip');
+      logger.log(`${tip} ---vue-template-compiler: compile`, 'info');
     });
   }
 

@@ -2,7 +2,7 @@ const prettier = require('prettier/standalone');
 const prettierHtml = require('prettier/parser-html');
 const prettierBabylon = require('prettier/parser-babylon');
 
-import { anyObject } from '../types';
+import { anyObject } from './types';
 
 const matchAndReplace = (str: string) =>
   str.replace(RegExp('(<input.*?)(></input>)', 'g'), '$1/>');
