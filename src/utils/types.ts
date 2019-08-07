@@ -19,3 +19,8 @@ export interface App {
   template: Template;
   script: Script;
 }
+
+export interface Log {
+  msg: string;
+  type: string;
+}

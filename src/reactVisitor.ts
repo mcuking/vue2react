@@ -1,7 +1,7 @@
 import { NodePath } from '@babel/traverse';
 import * as t from '@babel/types';
 
-import { App } from './types';
+import { App } from './utils/types';
 import { genPropTypes, genDefaultProps } from './utils/tools';
 
 export default class ReactVisitor {

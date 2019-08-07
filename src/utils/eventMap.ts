@@ -1,4 +1,4 @@
-import { anyObject } from '../types';
+import { anyObject } from './types';
 
 const eventMap: anyObject = {
   click: 'onClick',

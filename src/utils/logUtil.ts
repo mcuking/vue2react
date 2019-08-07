@@ -1,10 +1,11 @@
 import chalk from 'chalk';
+import { Log } from './types';
 
 class LogUtil {
   private static instance: LogUtil;
 
   prefix: string;
-  logHistory: any[];
+  logHistory: Log[];
 
   private constructor(prefix = '') {
     this.prefix = prefix;

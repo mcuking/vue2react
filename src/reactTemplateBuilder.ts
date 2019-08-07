@@ -2,7 +2,7 @@ import template from '@babel/template';
 import * as t from '@babel/types';
 import { formatComponentName } from './utils/tools';
 
-import { App } from './types';
+import { App } from './utils/types';
 
 export default function reactTemplateBuilder(app: App) {
   const componentTemplate = `

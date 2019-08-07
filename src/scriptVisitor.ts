@@ -3,7 +3,7 @@ import { NodePath } from '@babel/traverse';
 
 import { cycle } from './utils/tools';
 import logger from './utils/logUtil';
-import { Script } from './types';
+import { Script } from './utils/types';
 import formatThisExpression from './formatThis';
 
 export default class ScriptVisitor {
