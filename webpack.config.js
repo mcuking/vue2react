@@ -2,6 +2,9 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const SentryPlugin = require('@sentry/webpack-plugin');
+
+const VERSION = require('./package.json').version;
 
 const { NODE_ENV = 'production' } = process.env;
 const __DEV__ = NODE_ENV === 'development';
@@ -17,18 +20,24 @@ const plugins = __DEV__
       new HtmlWebpackPlugin({
         template: './docs/index.html'
       }),
-      new CleanWebpackPlugin()
+      new CleanWebpackPlugin(),
+      new SentryPlugin({
+        release: VERSION,
+        include: './dist/',
+        urlPrefix: '~/',
+        ignore: ['node_modules']
+      })
     ];
 
 module.exports = {
   mode: __DEV__ ? 'development' : 'production',
 
   entry: {
-    main: './docs/main.js'
+    main: './docs/index.tsx'
   },
 
   output: {
-    filename: __DEV__ ? '[name].js' : '[name].[hash].js',
+    filename: __DEV__ ? '[name].js' : '[name].[contenthash:8].js',
     path: path.resolve(__dirname, 'dist')
   },
 
@@ -83,6 +92,8 @@ module.exports = {
   },
 
   plugins,
+
+  devtool: 'cheap-source-map',
 
   optimization: {
     splitChunks: {
