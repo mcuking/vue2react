@@ -1,7 +1,8 @@
 import * as t from '@babel/types';
 import { NodePath } from '@babel/traverse';
 
-import { cycle, log } from './utils/tools';
+import { cycle } from './utils/tools';
+import logger from './utils/logUtil';
 import { Script } from './types';
 import formatThisExpression from './formatThis';
 
@@ -154,10 +155,9 @@ export default class ScriptVisitor {
                       types.length > 1 ? 'typesOfArray' : types[0];
                     this.prop.typeValue = types.length > 1 ? types : types[0];
                   } else {
-                    log(
-                      `The type in ${
-                        this.key
-                      } prop only supports identifier or array expression, eg: Boolean, [String]`
+                    logger.log(
+                      `The type in ${this.key} prop only supports identifier or array expression, eg: Boolean, [String]`,
+                      'info'
                     );
                   }
                   break;
@@ -193,7 +193,10 @@ export default class ScriptVisitor {
 
         path.traverse(fetchPropsContent, { prop, key });
       } else {
-        log(`Not supports expression for the ${key} prop in props.`);
+        logger.log(
+          `Not supports expression for the ${key} prop in props.`,
+          'info'
+        );
       }
     });
   }
@@ -222,7 +225,10 @@ function FunctionOrArrowFunctionVisitor(this: any, path: NodePath) {
         }
         break;
       case 'validator':
-        log(`Not supports validator for the ${this.key} prop in props.`);
+        logger.log(
+          `Not supports validator for the ${this.key} prop in props.`,
+          'info'
+        );
         break;
       default:
         break;

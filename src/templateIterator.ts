@@ -1,7 +1,7 @@
 const compiler = require('vue-template-compiler');
 
 import jsxElementGenerator from './jsxElementGenerator';
-import { log } from './utils/tools';
+import logger from './utils/logUtil';
 import { Template } from './types';
 
 export default function templateIterator(template: string): Template {
@@ -11,13 +11,13 @@ export default function templateIterator(template: string): Template {
 
   if (errors.length > 0) {
     return errors.forEach((error: string) => {
-      log(`${error} ---vue-template-compiler: compile`);
+      logger.log(`${error} ---vue-template-compiler: compile`, 'error');
     });
   }
 
   if (tips.length > 0) {
     tips.forEach((tip: string) => {
-      log(`${tip} ---vue-template-compiler: compile`, 'tip');
+      logger.log(`${tip} ---vue-template-compiler: compile`, 'tip');
     });
   }
 

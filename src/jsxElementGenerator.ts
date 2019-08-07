@@ -1,7 +1,7 @@
 import * as t from '@babel/types';
 
 import eventMap from './utils/eventMap';
-import { log } from './utils/tools';
+import logger from './utils/logUtil';
 import { anyObject, Template } from './types';
 
 export default function jsxElementGenerator(
@@ -67,8 +67,7 @@ export default function jsxElementGenerator(
       Object.keys(events).forEach(key => {
         const eventName = eventMap[key];
         if (!eventName) {
-          log(`Not support event name`);
-          return;
+          return logger.log(`Not support event name: ${key}`, 'info');
         }
         attrsCollector.add(events[key].value);
         eventAttrs.push(
