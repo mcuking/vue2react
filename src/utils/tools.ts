@@ -1,5 +1,4 @@
 import * as t from '@babel/types';
-import chalk from 'chalk';
 
 // Life-cycle methods relations mapping
 export const cycle: { [name: string]: any } = {
@@ -9,13 +8,6 @@ export const cycle: { [name: string]: any } = {
   beforeDestroy: 'componentWillUnmount',
   errorCaptured: 'componentDidCatch'
 };
-
-export function log(msg: string, type = 'error') {
-  if (type === 'error') {
-    return console.log(chalk.red(`[Vue-to-React]: ${msg}`));
-  }
-  return console.log(chalk.green(`[Vue-to-React]: ${msg}`));
-}
 
 export function genPropTypes(props: { [name: string]: any }) {
   const properties: t.ObjectProperty[] = [];

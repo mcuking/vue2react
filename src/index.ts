@@ -9,39 +9,47 @@ import templateIterator from './templateIterator';
 import reactIterator from './reactIterator';
 import reactTemplateBuilder from './reactTemplateBuilder';
 import formatCode from './utils/formatCode';
-import { log } from './utils/tools';
+import logger from './utils/logUtil';
 import { anyObject } from './types';
 
 export function transformCode(sourceCode: string) {
-  const result = compiler.parseComponent(formatCode(sourceCode, 'vue'), {
-    pad: 'line'
-  });
+  try {
+    // clear log history
+    logger.clearHistory();
 
-  if (result.errors.length > 0) {
-    return result.errors.forEach((error: string) =>
-      log(`${error} ---vue-template-compiler: parseComponent`)
-    );
+    const result = compiler.parseComponent(formatCode(sourceCode, 'vue'), {
+      pad: 'line'
+    });
+
+    if (result.errors.length > 0) {
+      return result.errors.forEach((error: string) =>
+        logger.log(`${error} ---vue-template-compiler: parseComponent`, 'error')
+      );
+    }
+
+    const preScript = result.script.content;
+    const preTemplate = result.template.content;
+    const styles = result.styles;
+
+    const hasStyle = styles.length > 0;
+
+    const script = scriptIterator(preScript);
+    const template = templateIterator(preTemplate);
+
+    const app = {
+      script,
+      template
+    };
+
+    const rast = reactTemplateBuilder(app);
+
+    const targetAst = reactIterator(rast, app, hasStyle);
+    const targetCode = generate(targetAst).code;
+
+    return [formatCode(targetCode, 'react'), styles, logger.logHistory];
+  } catch (error) {
+    logger.log(error.toString(), 'error');
   }
-
-  const preScript = result.script.content;
-  const preTemplate = result.template.content;
-  const styles = result.styles;
-
-  const hasStyle = styles.length > 0;
-
-  const script = scriptIterator(preScript);
-  const template = templateIterator(preTemplate);
-
-  const app = {
-    script,
-    template
-  };
-
-  const rast = reactTemplateBuilder(app);
-
-  const targetAst = reactIterator(rast, app, hasStyle);
-  const targetCode = generate(targetAst).code;
-  return [formatCode(targetCode, 'react'), styles];
 }
 
 export function transformFile(src: string, targetPath: string, dist: string) {
