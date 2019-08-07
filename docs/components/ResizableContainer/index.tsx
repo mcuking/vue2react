@@ -80,7 +80,8 @@ const ResizableContainer: React.FC<IProps> = props => {
           key={i}
           className={classes(styles.wrapper)}
           style={{
-            flexGrow: weights[i] / totalWeight
+            flexGrow: weights[i] / totalWeight,
+            position: 'relative'
           }}
         >
           {child}
