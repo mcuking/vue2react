@@ -220,7 +220,7 @@ function FunctionOrArrowFunctionVisitor(this: any, path: NodePath) {
           const childNodes = body.body;
           // must have only one return statement
           if (childNodes.length === 1 && t.isReturnStatement(childNodes[0])) {
-            this.prop.defaultValue = (childNodes[0] as t.ReturnStatement).argument;
+            this.prop.defaultValue = childNodes[0].argument;
           }
         }
         break;
