@@ -67,26 +67,7 @@ export default function formatThisExpression(
   let block: t.Statement[] = [];
   path.traverse(
     {
-      VariableDeclaration(subpath: NodePath<t.VariableDeclaration>) {
-        // Support following syntax:
-        // const name = this.name -> const name = this.state.name
-        subpath.traverse(replaceThisExpression, { script });
-        if (subpath.parentPath.parent === path.node) {
-          block.push(subpath.node);
-        }
-      },
-      ExpressionStatement(subpath: NodePath<t.ExpressionStatement>) {
-        // Support following syntax:
-        // this.name = 'Tom' -> this.setState({name: 'Tom'})
-        // console.log(this.name) -> console.log(this.state.name) / console.log(this.props.name)
-        subpath.traverse(replaceThisExpression, { script });
-        if (subpath.parentPath.parent === path.node) {
-          block.push(subpath.node);
-        }
-      },
-      ReturnStatement(subpath: NodePath<t.ReturnStatement>) {
-        // Support following syntax:
-        // return this.name -> return this.state.name
+      enter(subpath: NodePath<any>) {
         subpath.traverse(replaceThisExpression, { script });
         if (subpath.parentPath.parent === path.node) {
           block.push(subpath.node);
