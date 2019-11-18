@@ -22,6 +22,17 @@ const CodeEditor: React.FC<IProps> = props => {
         className={styles.ace_editor}
         mode="javascript"
         theme="tomorrow_night_eighties"
+        fontSize={14}
+        showPrintMargin={true}
+        showGutter={true}
+        highlightActiveLine={true}
+        setOptions={{
+          enableBasicAutocompletion: false,
+          enableLiveAutocompletion: false,
+          enableSnippets: false,
+          showLineNumbers: true,
+          tabSize: 2
+        }}
         editorProps={{ $blockScrolling: true }}
         readOnly={readOnly}
         onChange={onUpdateCode}
