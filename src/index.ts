@@ -27,7 +27,11 @@ export function transformCode(sourceCode: string) {
       );
     }
 
-    const preScript = result.script.content;
+    let preScript = "export default {}";
+    if (result.script && result.script.content){
+      preScript = result.script.content;
+    }
+    
     const preTemplate = result.template.content;
     const styles = result.styles;
 

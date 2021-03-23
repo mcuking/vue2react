@@ -18,7 +18,7 @@ export default function reactTemplateBuilder(app: App) {
 
   const node = buildRequire({
     NAME: t.identifier(formatComponentName(app.script.name)),
-    STATE: t.objectExpression(app.script.data._statements)
+    STATE: t.objectExpression(app.script.data._statements || [])
   });
 
   return t.file(t.program([node as any]));
