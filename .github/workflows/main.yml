@@ -1,19 +1,28 @@
-name: Build and Deploy
+name: Build and GH-Page Deploy
+
 on:
   push:
     branches:
       - master
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@master
 
-    - name: Build and Deploy
-      uses: mcuking/vue2react@master
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BRANCH: gh-pages
-        FOLDER: dist
-        BUILD_SCRIPT: npm install && npm run build-docs
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run build-docs
+
+      - name: Deploy to GH Page
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: docs
