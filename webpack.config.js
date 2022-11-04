@@ -12,18 +12,18 @@ const __DEV__ = NODE_ENV === 'development';
 const plugins = __DEV__
   ? [
       new HtmlWebpackPlugin({
-        template: './docs/index.html'
+        template: './website/index.html'
       }),
       new webpack.HotModuleReplacementPlugin()
     ]
   : [
       new HtmlWebpackPlugin({
-        template: './docs/index.html'
+        template: './website/index.html'
       }),
       new CleanWebpackPlugin(),
       new SentryPlugin({
         release: VERSION,
-        include: './dist/',
+        include: './docs/',
         urlPrefix: '~/',
         ignore: ['node_modules']
       })
@@ -33,16 +33,16 @@ module.exports = {
   mode: __DEV__ ? 'development' : 'production',
 
   entry: {
-    main: './docs/index.tsx'
+    main: './website/index.tsx'
   },
 
   output: {
     filename: __DEV__ ? '[name].js' : '[name].[contenthash:8].js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.resolve(__dirname, 'docs')
   },
 
   devServer: {
-    contentBase: './dist',
+    contentBase: './docs',
     open: true,
     port: 2323,
     inline: true,
@@ -74,7 +74,7 @@ module.exports = {
           'postcss-loader',
           'less-loader'
         ],
-        include: path.resolve(__dirname, 'docs')
+        include: path.resolve(__dirname, 'website')
       }
     ]
   },

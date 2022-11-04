@@ -8,7 +8,7 @@ There are 2 ways to use the transform tool: web page or cli.
 
 ## Web Page
 
-https://www.mcuking.club/vue2react/
+https://mcuking.github.io/vue2react/
 
 To get better perfomance, suggest access to it via Chrome.
 
