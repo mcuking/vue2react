@@ -84,7 +84,7 @@
     "husky": "^2.4.0",
     "less": "^3.9.0",
     "less-loader": "^4.1.0",
-    "lint-staged": "^8.2.0",
+    "lint-staged": "^13.0.3",
     "postcss-flexboxfixer": "0.0.5",
     "postcss-loader": "^3.0.0",
     "react": "^16.8.6",
